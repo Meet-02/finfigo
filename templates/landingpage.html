@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Responsive ITR & GST Site</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='landingpage.css') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+</head>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link
+    href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bitcount+Grid+Single:wght@100..900&family=Fira+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Fjalla+One&family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto+Slab:wght@100..900&display=swap"
+    rel="stylesheet">
+
+<body>
+
+    <header id="header">
+        <a id="logo" href="#">
+            <img class="logo" src="{{ url_for('static', filename='IMAGES/Untitled__2_-removebg-preview.png') }}"
+                alt="Company Logo" />
+        </a>
+        <div class="header-buttons">
+            <a href="/signup"><button class="btn signup">Sign Up</button></a>
+            <a href="/signup"><button class="btn register">Register</button></a>
+        </div>
+    </header>
+
+    <main>
+        <div class="hero-bg">
+            <section class="hero-section">
+                <div class="hero-left">
+                    <h1 class="hero-title">ITR FILLING & GST<br>INVOICE BILLS</h1>
+                    <ul class="hero-features">
+                        <li>Providing user India’s taxation system with focus on GST and new income tax regime</li>
+                        <li>Providing users with personalized tax dashboards offers a clear overview of their tax
+                            information.</li>
+                        <li>Providing financial suggestions to save tax.</li>
+                        <li>Tracking users annual GST</li>
+                        <li>Creating an user friendly web page application.</li>
+                    </ul>
+                </div>
+                <div class="hero-right">
+                    <img src="{{ url_for('static', filename='IMAGES/image1.png') }}" alt="Tax Clock Image" />
+                </div>
+            </section>
+
+            <div class="btn-conteiner">
+                <a class="btn-content" href="/signup">
+
+                    <span class="btn-title">Get Started</span>
+                    <span class="icon-arrow">
+                        <svg width="66px" height="43px" viewBox="0 0 66 43" xmlns="http://www.w3.org/2000/svg">
+                            <g id="arrow" fill="none" fill-rule="evenodd">
+                                <path id="arrow-icon-one"
+                                    d="M40.15,3.89L43.97,0.14C44.17,-0.05 44.48,-0.05 44.68,0.14L65.69,20.78C66.08,21.17 66.09,21.80 65.70,22.20L44.67,42.86C44.48,43.05 44.17,43.05 43.98,42.86L40.15,39.10C39.96,38.91 39.95,38.59 40.15,38.39L56.99,21.85C57.19,21.66 57.19,21.34 57.00,21.14L40.15,4.60C39.96,4.41 39.95,4.09 40.15,3.89Z"
+                                    fill="#FFFFFF" />
+                                <path id="arrow-icon-two"
+                                    d="M20.15,3.89L23.97,0.14C24.17,-0.05 24.48,-0.05 24.68,0.14L45.69,20.78C46.08,21.17 46.09,21.80 45.70,22.20L24.67,42.86C24.48,43.05 24.17,43.05 23.98,42.86L20.15,39.10C19.96,38.91 19.95,38.59 20.15,38.39L36.99,21.85C37.19,21.66 37.19,21.34 37.00,21.14L20.15,4.60C19.96,4.41 19.95,4.09 20.15,3.89Z"
+                                    fill="#FFFFFF" />
+                                <path id="arrow-icon-three"
+                                    d="M0.15,3.89L3.97,0.14C4.17,-0.05 4.48,-0.05 4.68,0.14L25.69,20.78C26.08,21.17 26.09,21.80 25.70,22.20L4.67,42.86C4.48,43.05 4.17,43.05 3.98,42.86L0.15,39.10C-0.04,38.91 -0.04,38.59 0.15,38.39L16.99,21.85C17.19,21.66 17.19,21.34 17.00,21.14L0.15,4.60C-0.04,4.41 -0.04,4.09 0.15,3.89Z"
+                                    fill="#FFFFFF" />
+                            </g>
+                        </svg>
+                    </span>
+
+                </a>
+            </div>
+        </div>
+
+
+        <section class="about-section">
+            <h2 class="section-title">ABOUT US</h2>
+            <div class="about-grid">
+                <div class="about-card">
+                    <img class="img1" src="{{ url_for('static', filename='IMAGES/GSTRegistrationAndCertificate.png') }}"
+                        alt="Icon 1" />
+                    <ul>
+                        <li> Automated GST Calculations with 100% accuracy. </li>
+                        <li> Supports All GST Types. </li>
+                        <li> GSTR-1, GSTR-3B Filing. </li>
+                        <li> Fully aligned with the latest GST laws and notifications. </li>
+                    </ul>
+                </div>
+                <div class="about-card">
+                    <img class="img2" src="{{ url_for('static', filename='IMAGES/ITR-Filing-AY-2024-25-1.png') }}"
+                        alt="Icon 2" />
+                    <ul>
+                        <li> Easy ITR Filing for All Categories. </li>
+                        <li> Tax Liability & Refund Calculator. </li>
+                        <li> Carry Forward Losses & Deductions. </li>
+                        <li> Error-Free & Government Compliant. </li>
+                    </ul>
+                </div>
+                <div class="about-card">
+                    <img class="img3" src="{{ url_for('static', filename='IMAGES/accounting.png') }}" alt="Icon 3" />
+                    <ul>
+                        <li>Organized record-keeping for businesses.</li>
+                        <li>Monthly financial statements & cash flow insights.</li>
+                        <li>GST-ready accounting integration.</li>
+                        <li>Automated expense & income tracking.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+
+
+    </main>
+
+    <footer style="background: #0f0d0de6; padding: 20px 0; text-align: center;">
+        <div class="social-links">
+            <a href="https://github.com/Meet-02" target="_blank" class="social-link">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M12 0C5.37 0 0 5.373 0 12c0 5.302 3.438 9.8 8.205 11.387
+                      .6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04
+                      -3.338.726-4.042-1.61-4.042-1.61
+                      -.546-1.387-1.333-1.756-1.333-1.756
+                      -1.09-.745.083-.73.083-.73
+                      1.205.084 1.84 1.237 1.84 1.237
+                      1.07 1.834 2.807 1.304 3.492.997
+                      .108-.776.418-1.305.76-1.604
+                      -2.665-.304-5.467-1.334-5.467-5.932
+                      0-1.31.468-2.38 1.235-3.22
+                      -.124-.303-.535-1.524.117-3.176
+                      0 0 1.008-.322 3.3 1.23a11.5 11.5 0 0 1 6 0
+                      c2.29-1.552 3.297-1.23 3.297-1.23
+                      .653 1.653.242 2.874.118 3.176
+                      .77.84 1.233 1.91 1.233 3.22
+                      0 4.61-2.807 5.625-5.48 5.922
+                      .43.372.823 1.103.823 2.222
+                      0 1.606-.015 2.898-.015 3.293
+                      0 .32.218.694.825.576C20.565 21.796
+                      24 17.298 24 12c0-6.627-5.373-12-12-12z" />
+                </svg>
+                GitHub
+            </a>
+
+            <a href="https://www.linkedin.com/in/meet-mourya-5311b6332/" target="_blank" class="social-link">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M4.98 3.5C4.98 4.88 3.88 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5zM0 8h5V24H0V8zm7.5 0h4.8v2.16h.07c.67-1.26 2.3-2.6 4.73-2.6 5.06 0 6 3.33 6 7.65V24h-5V15.75c0-1.95-.03-4.47-2.73-4.47-2.74 0-3.16 2.14-3.16 4.32V24H7.5V8z" />
+                </svg>
+                LinkedIn
+            </a>
+
+            <a href="https://www.instagram.com/meet__02_?igsh=NWh1bHljZnl5NDZ3" target="_blank" class="social-link">
+                <svg class="icon" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                        d="M12 2.163c3.204 0 3.584.012 4.849.07 1.366.062 2.633.352 3.608 1.327.975.975 1.265 2.242 1.327 3.608.058 1.265.07 1.645.07 4.849s-.012 3.584-.07 4.849c-.062 1.366-.352 2.633-1.327 3.608-.975.975-2.242 1.265-3.608 1.327-1.265.058-1.645.07-4.849.07s-3.584-.012-4.849-.07c-1.366-.062-2.633-.352-3.608-1.327-.975-.975-1.265-2.242-1.327-3.608C2.175 15.584 2.163 15.204 2.163 12s.012-3.584.07-4.849c.062-1.366.352-2.633 1.327-3.608C4.535 2.585 5.802 2.295 7.168 2.233 8.433 2.175 8.813 2.163 12 2.163zm0-2.163C8.736 0 8.332.012 7.052.07 5.65.13 4.267.453 3.052 1.668 1.838 2.882 1.514 4.266 1.455 5.668.997 6.948.985 7.352.985 12s.012 5.052.07 6.332c.06 1.402.383 2.785 1.597 4 .983.983 2.265 1.29 3.667 1.352C8.332 23.988 8.736 24 12 24s3.668-.012 4.948-.07c1.402-.06 2.684-.368 3.667-1.352.983-.983 1.29-2.265 1.352-3.667.058-1.28.07-1.684.07-6.332s-.012-5.052-.07-6.332c-.06-1.402-.368-2.684-1.352-3.667-.983-.983-2.265-1.29-3.667-1.352C15.668.012 15.264 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a3.999 3.999 0 1 1 0-7.998 3.999 3.999 0 0 1 0 7.998zm6.406-11.845a1.44 1.44 0 1 1-2.88 0 1.44 1.44 0 0 1 2.88 0z" />
+                </svg>
+                Instagram
+            </a>
+        </div>
+        <div class="footer-links">
+            <a href="contact.html">Contact</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="terms.html">Terms of Use</a>
+        </div>
+
+        <p style="font-size: 13px; color: #999;">&copy; 2025 ITR & GST Solutions. All rights reserved.</p>
+    </footer>
+
+
+</body>
+
+</html>

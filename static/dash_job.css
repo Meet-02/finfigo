@@ -1,0 +1,272 @@
+:root {
+    --sidebar-bg: #2a3a8d; /* Dark, professional blue */
+    --accent-blue: #007bff; /* Vibrant blue for active/hover states */
+    --white-color: #ffffff;
+    --main-bg: #f4f7fc; /* Light grey-blue for the main content area */
+    --text-color: #333;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: var(--main-bg);
+    min-height: 100vh;
+}
+
+/* --- Sidebar Navigation --- */
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar-bg);
+    color: var(--white-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    transition: width 0.3s ease;
+}
+
+.sidebar-header {
+    padding: 20px 0; /* Adjust padding as needed */
+    display: flex;
+    justify-content: center; /* Center the logo horizontally */
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 40px; /* Keep consistent with original header spacing */
+}
+
+/* Style for the logo image itself */
+.logo-placeholder img {
+    max-width: 120px; /* Adjust this value to make the logo smaller */
+    height: auto; /* Maintain aspect ratio */
+    display: block; /* Remove extra space below image */
+}
+
+
+
+.nav-list {
+    list-style: none;
+}
+
+.nav-item {
+    margin-bottom: 10px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: var(--white-color);
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 16px;
+    cursor: pointer; /* Change cursor to indicate it's clickable */
+}
+
+.nav-link i {
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+}
+
+.nav-link.active,
+.nav-link:hover {
+    background-color: var(--accent-blue);
+    color: var(--white-color);
+}
+
+.logout-section {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- Main Content Area --- */
+.main-content {
+    flex-grow: 1;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+.main-content h1 {
+    font-size: 28px;
+    color: var(--text-color);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.main-content h2 {
+    font-size: 20px;
+    color: var(--text-color);
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.main-content p {
+    color: #6c757d;
+    font-size: 16px;
+    margin-bottom: 30px; /* Added margin to separate from charts */
+}
+
+/* --- NEW CHART STYLES --- */
+.charts-container {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap; /* Allows charts to stack on smaller screens */
+    justify-content: center;
+}
+
+.chart-wrapper {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+    height: 320px;   /* ✅ FIX: lock height */
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* keeps canvas centered */
+}
+
+.chart-wrapper canvas {
+    width: 100% !important;  /* Chart.js will fit inside */
+    height: 100% !important; /* No infinite stretch */
+}
+
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 80px;
+    }
+    .sidebar-header {
+        margin-bottom: 30px;
+        display: flex;
+    }
+    .nav-link span {
+        display: none;
+    }
+    .nav-link i {
+        margin-right: 0;
+    }
+    .logo-placeholder img {
+        max-width: 80px;
+    }
+    .main-content {
+        padding: 20px;
+    }
+    .main-content h1 {
+        font-size: 24px;
+    }
+    .chart-wrapper {
+        min-width: 250px;
+        height: 280px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 60px;
+        padding: 10px;
+    }
+    .sidebar-header {
+        margin-bottom: 20px;
+    }
+    .logo-placeholder img {
+        max-width: 50px;
+    }
+    .nav-link {
+        padding: 10px;
+    }
+    .main-content {
+        padding: 15px;
+    }
+    .main-content h1 {
+        font-size: 20px;
+    }
+    .main-content h2 {
+        font-size: 18px;
+    }
+    .charts-container {
+        gap: 15px;
+    }
+    .chart-wrapper {
+        min-width: 200px;
+        height: 250px;
+        padding: 15px;
+    }
+    .table-container {
+        padding: 15px;
+    }
+    .history-table th,
+    .history-table td {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
+}
+
+/* --- History Table Styles --- */
+.history-section h3 {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.table-container {
+    overflow-x: auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    padding: 20px;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.history-table th,
+.history-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.history-table th {
+    background-color: var(--sidebar-bg);
+    color: var(--white-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.history-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.history-table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.insights-cell {
+    max-width: 200px;
+    word-wrap: break-word;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.no-history {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+    font-size: 16px;
+}
