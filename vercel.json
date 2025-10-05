@@ -1,16 +1,27 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "app.py",
-        "use": "@vercel/python"
+  "version": 2,
+  "builds": [
+    {
+      "src": "app.py",
+      "use": "@vercel/python",
+      "config": {
+        "runtime": "python3.11"
       }
-    ],
-    "routes": [
-      { "src": "/favicon.ico", "dest": "/static/favicon.ico" },
-      { "src": "/static/(.*)", "dest": "/static/$1" },
-      { "src": "/templates/(.*)", "dest": "/templates/$1" },
-      { "src": "/(.*)", "dest": "app.py" }
-    ]
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "app.py"
+    }
+  ],
+  "env": {
+    "TIDB_HOST": "@tidb_host",
+    "TIDB_PORT": "@tidb_port",
+    "TIDB_NAME": "@tidb_name",
+    "TIDB_USER": "@tidb_user",
+    "TIDB_PASS": "@tidb_pass",
+    "TIDB_SSL_CA": "@tidb_ssl_ca",
+    "GEMINI_API_KEY": "@gemini_api_key"
   }
-  
+}
