@@ -14,14 +14,5 @@
       "src": "/(.*)",
       "dest": "app.py"
     }
-  ],
-  "env": {
-    "TIDB_HOST": "your_tidb_host_value",
-    "TIDB_PORT": "4000",
-    "TIDB_NAME": "your_database_name",
-    "TIDB_USER": "your_tidb_username",
-    "TIDB_PASS": "your_tidb_password",
-    "TIDB_SSL_CA": "database/tidbcloud-ca.pem",
-    "GEMINI_API_KEY": "your_google_api_key"
-  }
+  ]
 }
