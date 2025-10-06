@@ -287,36 +287,60 @@ def business_expenses():
                 except mysql.connector.InterfaceError:
                     pass
 
+        # Calculate tax here
+        bus_income = session.get('business_income', {})
+        bus_details = session.get('business_details', {})
+        fin_deductions = session.get('finance_deduction', {})
+
+        gross_revenue = bus_income.get('total_income', 0)
+        total_expenses = sum(business_expenses.values())
+        final_tax_payable, net_taxable_income = calc_bus_tax_new_regime(gross_revenue, total_expenses)
+
+        gst_results = calculate_gst(
+            bus_details.get('purchase_value', 0), int(bus_details.get('gst_rate_purchase', 0)),
+            bus_details.get('type_of_supply_purchase', ''), bus_details.get('sell_value', 0),
+            int(bus_details.get('gst_rate_sell', 0)), bus_details.get('type_of_supply_sell', '')
+        )
+        final_gst_payable = gst_results['net_payable']['total']
+
+        insights = "AI insights available on results page."
+
+        # Insert result
+        with get_connection(autocommit=True) as conn:
+            with conn.cursor(buffered=True) as cur:
+                cur.execute('''INSERT INTO tax_results_business (person_id, pan_id, business_id, gross_income, net_taxable_income, gst_payable, final_tax_payable, insights)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+                ''', (session.get('person_id'), session.get('pan_id'), session.get('business_id'), gross_revenue, net_taxable_income, final_gst_payable, final_tax_payable, insights))
+                try:
+                    cur.fetchall()
+                except mysql.connector.InterfaceError:
+                    pass
+
+        # Store results in session
+        session['business_results'] = {
+            'gross_income': gross_revenue,
+            'net_taxable_income': net_taxable_income,
+            'gst_payable': final_gst_payable,
+            'final_tax_payable': final_tax_payable,
+            'total_expenses': total_expenses
+        }
+
         return redirect(url_for("business_result"))
     return render_template("buss_deduct.html")
 
 @app.route('/business/result')
 def business_result():
-    required_keys = ['business_income', 'business_details', 'business_expenses', 'pan_id']
-    if not all(key in session for key in required_keys):
+    if 'business_results' not in session:
         flash("Session data is missing. Please restart the calculation.")
         return redirect(url_for('business_details'))
 
-    bus_income = session.get('business_income', {})
-    bus_details = session.get('business_details', {})
-    bus_expenses = session.get('business_expenses', {})
+    results = session.get('business_results', {})
     fin_deductions = session.get('finance_deduction', {})
-    
-    gross_revenue = bus_income.get('total_income', 0)
-    total_expenses = sum(bus_expenses.values())
-    final_tax_payable, net_taxable_income = calc_bus_tax_new_regime(gross_revenue, total_expenses)
 
-    gst_results = calculate_gst(
-        bus_details.get('purchase_value', 0), int(bus_details.get('gst_rate_purchase', 0)),
-        bus_details.get('type_of_supply_purchase', ''), bus_details.get('sell_value', 0),
-        int(bus_details.get('gst_rate_sell', 0)), bus_details.get('type_of_supply_sell', '')
-    )
-    final_gst_payable = gst_results['net_payable']['total']
-
-    insights = "Could not generate AI insights at this time." 
+    insights = "Could not generate AI insights at this time."
     if GEMINI_API_KEY:
         try:
-            prompt = f"Analyze this business data and provide 2-3 simple tax tips: Revenue ₹{gross_revenue:,.2f}, Expenses ₹{total_expenses:,.2f}, 80C Investment ₹{fin_deductions.get('section_80c', 0):,.2f}"
+            prompt = f"Analyze this business data and provide 2-3 simple tax tips: Revenue ₹{results.get('gross_income', 0):,.2f}, Expenses ₹{results.get('total_expenses', 0):,.2f}, 80C Investment ₹{fin_deductions.get('section_80c', 0):,.2f}"
             model = genai.GenerativeModel('gemini-2.5-flash')
             response = model.generate_content(prompt)
             insights = response.text
@@ -324,21 +348,12 @@ def business_result():
             print(f"Error calling Gemini API: {e}")
             insights = "Could not generate AI insights at this time."
 
-    with get_connection(autocommit=True) as conn:
-        with conn.cursor(buffered=True) as cur:
-            cur.execute('''
-                INSERT INTO tax_results_business (person_id, pan_id, business_id, gross_income, net_taxable_income, gst_payable, final_tax_payable, insights)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-            ''', (session.get('person_id'), session.get('pan_id'), session.get('business_id'), gross_revenue, net_taxable_income, final_gst_payable, final_tax_payable, insights))
-            try:
-                cur.fetchall()
-            except mysql.connector.InterfaceError:
-                pass
-
     return render_template(
         "tax_result_bus.html",
-        gross_income=round(gross_revenue, 2), net_taxable_income=round(net_taxable_income, 2),
-        gst_payable=round(final_gst_payable, 2), final_tax_payable=round(final_tax_payable, 2),
+        gross_income=round(results.get('gross_income', 0), 2),
+        net_taxable_income=round(results.get('net_taxable_income', 0), 2),
+        gst_payable=round(results.get('gst_payable', 0), 2),
+        final_tax_payable=round(results.get('final_tax_payable', 0), 2),
         insights=insights
     )
 
@@ -411,29 +426,56 @@ def job_deductions():
                 except mysql.connector.InterfaceError:
                     pass
 
+        # Calculate tax here
+        job_income = session.get('job_income', {})
+        gross_income = sum(v for k, v in job_income.items() if k != 'financial_year')
+        tds = job_deductions.get('tds', 0)
+        final_tax_due, taxable_income = calc_job_tax_new_regime(gross_income, tds)
+
+        insights = "AI insights available on results page."
+
+        # Insert result
+        with get_connection(autocommit=True) as conn:
+            with conn.cursor(buffered=True) as cur:
+                cur.execute('''
+                    INSERT INTO tax_results_job (person_id, pan_id, financial_year, gross_income, tax, net_income, insights)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s)
+                ''', (
+                    session.get('person_id'), session.get('pan_id'), job_income.get('financial_year'),
+                    gross_income, final_tax_due, taxable_income, insights
+                ))
+                try:
+                    cur.fetchall()
+                except mysql.connector.InterfaceError:
+                    pass
+
+        # Store results in session for display
+        session['job_results'] = {
+            'tax': final_tax_due,
+            'net_income': taxable_income,
+            'gross_income': gross_income,
+            'insights': insights
+        }
+
         return redirect(url_for("job_result"))
     return render_template("job_deduct.html")
 
 @app.route('/job/result')
 def job_result():
-    if 'job_income' not in session or 'job_deductions' not in session:
+    if 'job_results' not in session:
         flash("Session data missing. Please restart the job calculation.")
         return redirect(url_for('job_details'))
 
-    job_income = session.get('job_income', {})
+    results = session.get('job_results', {})
     job_deductions = session.get('job_deductions', {})
-
-    gross_income = sum(v for k, v in job_income.items() if k != 'financial_year')
-    tds = job_deductions.get('tds', 0)
-    final_tax_due, taxable_income = calc_job_tax_new_regime(gross_income, tds)
 
     insights = "Could not generate AI insights at this time."
     if GEMINI_API_KEY:
         try:
             section_80c_total = sum(job_deductions.get(k, 0) for k in ['epf_ppf', 'life_ins', 'elss', 'home_loan_principal', 'tuition', 'other_80c'])
             health_insurance_80d = job_deductions.get('health_ins_self', 0) + job_deductions.get('health_ins_parents', 0)
-            
-            prompt = f"Analyze this salaried employee's data and give 2-3 tax tips: Gross Salary ₹{gross_income:,.2f}, 80C Investments ₹{section_80c_total:,.2f}, 80D Health Insurance ₹{health_insurance_80d:,.2f}"
+
+            prompt = f"Analyze this salaried employee's data and give 2-3 tax tips: Gross Salary ₹{results.get('gross_income', 0):,.2f}, 80C Investments ₹{section_80c_total:,.2f}, 80D Health Insurance ₹{health_insurance_80d:,.2f}"
             model = genai.GenerativeModel('gemini-2.5-flash')
             response = model.generate_content(prompt)
             insights = response.text
@@ -441,25 +483,11 @@ def job_result():
             print(f"Error calling Gemini API: {e}")
             insights = "Could not generate AI insights at this time."
 
-    with get_connection(autocommit=True) as conn:
-        with conn.cursor(buffered=True) as cur:
-            cur.execute('''
-                INSERT INTO tax_results_job (person_id, pan_id, financial_year, gross_income, tax, net_income, insights)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-            ''', (
-                session.get('person_id'), session.get('pan_id'), job_income.get('financial_year'),
-                gross_income, final_tax_due, taxable_income, insights
-            ))
-            try:
-                cur.fetchall()
-            except mysql.connector.InterfaceError:
-                pass
-
     return render_template(
-        "tax_result_job.html", 
-        tax=round(final_tax_due, 2), 
-        net_income=round(taxable_income, 2), 
-        gross_income=round(gross_income, 2),
+        "tax_result_job.html",
+        tax=round(results.get('tax', 0), 2),
+        net_income=round(results.get('net_income', 0), 2),
+        gross_income=round(results.get('gross_income', 0), 2),
         insights=insights
     )
 

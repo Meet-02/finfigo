@@ -42,6 +42,12 @@
                             <span>File Tax</span>
                         </a>
                     </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="rules">
+                            <i class="fas fa-file-alt"></i>
+                            <span>Rules</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -217,6 +223,49 @@
         <section id="file-tax-content" class="page-content" style="display: none;">
             <h1>File a New Tax Return</h1>
             <p>The form for filing a new ITR or GST return will be placed here.</p>
+        </section>
+
+        <section id="rules-content" class="page-content" style="display: none;">
+            <h1>Tax Rules</h1>
+            <p>Comparison of Old and New Tax Regimes</p>
+            <div class="table-container">
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Feature</th>
+                            <th>Old Tax Regime</th>
+                            <th>New Tax Regime (Default)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Basic Exemption Limit</td>
+                            <td>₹2,50,000</td>
+                            <td>₹4,00,000</td>
+                        </tr>
+                        <tr>
+                            <td>Tax Slabs (Income for Individuals < 60)</td>
+                            <td>Up to ₹2,50,000: Nil<br>₹2,50,001 to ₹5,00,000: 5%<br>₹5,00,001 to ₹10,00,000: 20%<br>Above ₹10,00,000: 30%</td>
+                            <td>Up to ₹4,00,000: Nil<br>₹4,00,001 to ₹8,00,000: 5%<br>₹8,00,001 to ₹12,00,000: 10%<br>₹12,00,001 to ₹16,00,000: 15%<br>₹16,00,001 to ₹20,00,000: 20%<br>₹20,00,001 to ₹24,00,000: 25%</td>
+                        </tr>
+                        <tr>
+                            <td>Rebate u/s 87A (Effective Zero Tax)</td>
+                            <td>Up to ₹5,00,000 income (Rebate of ₹12,500)</td>
+                            <td>Up to ₹12,00,000 income (Rebate of ₹60,000)</td>
+                        </tr>
+                        <tr>
+                            <td>Standard Deduction</td>
+                            <td>₹50,000 (for salaried/pensioners)</td>
+                            <td>Mostly NOT Allowed (Only a few specific deductions like employer contribution to NPS u/s 80CCD(2) are allowed)</td>
+                        </tr>
+                        <tr>
+                            <td>Major Deductions & Exemptions (e.g., 80C, HRA, 80D, Home Loan Interest u/s 24)</td>
+                            <td>Allowed</td>
+                            <td>Mostly NOT Allowed (Only a few specific deductions like employer contribution to NPS u/s 80CCD(2) are allowed)</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </section>
     </main>
 
