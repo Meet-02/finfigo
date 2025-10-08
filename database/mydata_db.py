@@ -250,6 +250,7 @@ def init_db():
             CREATE TABLE IF NOT EXISTS tax_results_business (
                 id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 person_id INTEGER,
+                pan_id VARCHAR(50),
                 business_id INTEGER,
                 gross_income REAL,
                 net_taxable_income REAL,
@@ -264,9 +265,11 @@ def init_db():
             CREATE TABLE IF NOT EXISTS tax_results_job (
                 id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 person_id INTEGER,
+                pan_id VARCHAR(50),
+                financial_year VARCHAR(20),
+                gross_income REAL,
                 tax REAL,
                 net_income REAL,
-                gross_income REAL,
                 insights TEXT,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY(person_id) REFERENCES people_info(id)
