@@ -736,6 +736,42 @@ def download_job_report():
     # Return PDF
     return send_file(buffer, as_attachment=True, download_name='job_tax_report.pdf', mimetype='application/pdf')
 
+@app.route('/gst_rates', methods=['GET'])
+def gst_rates():
+    # 1. FIX: Get data from URL query string (e.g., /gst_rates?data=01)
+    chapter_heading_data = request.args.get('data')
+
+    if not chapter_heading_data:
+        # 400 Bad Request if the required parameter is missing
+        return jsonify({'error': 'Missing required parameter: data (chapter_heading)'}), 400
+
+    try:
+        # Use get_connection without autocommit=True, as it's a SELECT (read)
+        with get_connection() as conn:
+            # Use dictionary=True for clear JSON keys
+            with conn.cursor(buffered=True, dictionary=True) as cur:
+                # 2. SQL Execution: Parameterized query is correct and secure
+                query = 'SELECT * FROM gst_rates WHERE chapter_heading = %s'
+                cur.execute(query, (chapter_heading_data,))
+                results = cur.fetchall()
+            
+        if not results:
+            # 2. FIX: Return 404 Not Found if no data is returned
+            return jsonify({
+                'message': f"No GST data found for chapter_heading: {chapter_heading_data}"
+            }), 404
+        
+        # Return the data with a 200 OK status
+        return jsonify(results), 200
+
+    except mysql.connector.Error as err:
+        print(f"Database Error: {err}")
+        # Return 500 Internal Server Error for database issues
+        return jsonify({'error': 'Database operation failed', 'details': str(err)}), 500
+    except Exception as e:
+        print(f"Unhandled Error: {e}")
+        return jsonify({'error': 'An unexpected error occurred', 'details': str(e)}), 500
+
 
 if __name__ == '__main__':
     app.run(debug=True)

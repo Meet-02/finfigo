@@ -166,30 +166,11 @@
             <p>Find the Goods and Services Tax (GST) rate for various products in India. GST is divided into several slabs, primarily 0%, 5%, 12%, 18%, and 28%.</p>
             <div class="search-container">
                 <i class="fas fa-search search-icon"></i>
-                <input type="text" id="product-search" placeholder="Search for a GST rate (e.g., '12%')" autocomplete="off">
+                <input type="text" id="product-search" placeholder="Search by chapter heading (e.g., '01')" autocomplete="off">
                 <span class="clear-search-btn">&times;</span>
             </div>
-            <div class="gst-info-container">
-                <div class="gst-card">
-                    <h3>Exempted (0% GST)</h3>
-                    <p>Essential items that are not taxed under GST.</p>
-                </div>
-                <div class="gst-card">
-                    <h3>5% GST Slab</h3>
-                    <p>Commonly used mass consumption items.</p>
-                </div>
-                <div class="gst-card">
-                    <h3>12% GST Slab</h3>
-                    <p>Includes various processed foods and other common items.</p>
-                </div>
-                <div class="gst-card">
-                    <h3>18% GST Slab</h3>
-                    <p>This is the standard rate that applies to a wide range of goods and services.</p>
-                </div>
-                <div class="gst-card">
-                    <h3>28% GST Slab</h3>
-                    <p>Primarily applies to luxury goods and 'sin' goods.</p>
-                </div>
+            <div id="gst-results-container" class="gst-info-container">
+                <!-- Dynamic results will be inserted here -->
             </div>
             <div id="no-results-message" style="display: none;">
                 No results found.
