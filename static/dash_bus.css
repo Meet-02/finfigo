@@ -232,6 +232,381 @@ body {
     text-transform: uppercase;
     font-size: 12px;
     letter-spacing: 0.5px;
+}/* --- Global Styles & Variables --- */
+:root {
+    --sidebar-bg: #2a3a8d;
+    --accent-blue: #007bff;
+    --white-color: #ffffff;
+    --main-bg: #f4f7fc;
+    --text-color: #333;
+    --light-border: #e9ecef;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: var(--main-bg);
+    min-height: 100vh;
+}
+
+/* --- Sidebar Navigation --- */
+.sidebar {
+    width: 260px;
+    background-color: var(--sidebar-bg);
+    color: var(--white-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    transition: width 0.3s ease;
+}
+
+.sidebar-header {
+    padding: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 40px;
+}
+
+.logo-placeholder img {
+    max-width: 120px;
+    height: auto;
+    display: block;
+}
+
+.nav-list {
+    list-style: none;
+}
+
+.nav-item {
+    margin-bottom: 10px;
+}
+
+.nav-link {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    border-radius: 8px;
+    color: var(--white-color);
+    text-decoration: none;
+    transition: background-color 0.3s, color 0.3s;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.nav-link i {
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+}
+
+.nav-link.active,
+.nav-link:hover {
+    background-color: var(--accent-blue);
+    color: var(--white-color);
+}
+
+.logout-section {
+    padding-top: 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- Main Content Area --- */
+.main-content {
+    flex-grow: 1;
+    padding: 40px;
+    overflow-y: auto;
+}
+
+.main-content h1 {
+    font-size: 28px;
+    color: var(--text-color);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.main-content h2 {
+    font-size: 20px;
+    color: var(--text-color);
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.main-content p {
+    color: #6c757d;
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+/* --- Chart Styles (Dashboard Page) --- */
+.charts-container {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.chart-wrapper {
+    flex: 1;
+    min-width: 300px;
+    max-width: 500px;
+    height: 320px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.chart-wrapper canvas {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* --- Table Styles (History & Rules Pages) --- */
+.history-section h3 {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.table-container {
+    overflow-x: auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    padding: 20px;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.history-table th,
+.history-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--light-border);
+}
+
+.history-table th {
+    background-color: var(--sidebar-bg);
+    color: var(--white-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.history-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.insights-cell {
+    max-width: 200px;
+    word-wrap: break-word;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.no-history {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+    font-size: 16px;
+}
+
+/* --- Product GST Page Styles --- */
+/* --- Product GST Page Styles --- */
+
+/* Make sure the container is relative for positioning child elements */
+.search-container {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+/* The search icon itself */
+.search-container .search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    z-index: 2; /* Ensure it's above the input field background */
+}
+
+/* The search input field - MODIFIED */
+#product-search {
+    width: 100%;
+    padding: 12px 45px; /* Increased right padding for the clear button */
+    border: 1px solid var(--light-border);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease; /* Smooth transition for focus */
+    -webkit-appearance: none; /* Removes default browser styling on mobile */
+}
+
+/* Enhanced focus state */
+#product-search:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+}
+
+/* NEW: Clear search button 'x' */
+.clear-search-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0; /* Hidden by default */
+    pointer-events: none; /* Not clickable when hidden */
+}
+
+/* Style for when the clear button is visible */
+.clear-search-btn.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.clear-search-btn:hover {
+    color: var(--text-color);
+}
+
+/* NEW: Style for the "no results" message */
+#no-results-message {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #6c757d;
+    background-color: var(--white-color);
+    border-radius: 10px;
+    margin-top: 20px;
+    border: 1px dashed var(--light-border);
+}
+
+
+/* --- Your other styles for .gst-info-container, .gst-card, etc. remain the same --- */
+.gst-info-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.gst-card {
+    background-color: var(--white-color);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    border-left: 5px solid var(--accent-blue);
+    /* No display property here, it will be controlled by JS */
+}
+
+/* ... etc. */
+
+.gst-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.gst-card h3 {
+    color: var(--sidebar-bg);
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.gst-card p {
+    font-size: 14px;
+    margin-bottom: 0; /* Adjusted for no list */
+    color: #6c757d;
+}
+
+/* --- Responsive Media Queries --- */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 80px;
+    }
+    .sidebar-header {
+        margin-bottom: 30px;
+    }
+    .nav-link span {
+        display: none;
+    }
+    .nav-link i {
+        margin-right: 0;
+    }
+    .logo-placeholder img {
+        max-width: 50px;
+    }
+    .main-content {
+        padding: 20px;
+    }
+    .main-content h1 {
+        font-size: 24px;
+    }
+    .chart-wrapper {
+        min-width: 100%;
+        height: 280px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 60px;
+        padding: 10px;
+    }
+    .sidebar-header {
+        margin-bottom: 20px;
+    }
+    .logo-placeholder img {
+        max-width: 40px;
+    }
+    .nav-link {
+        padding: 10px;
+    }
+    .main-content {
+        padding: 15px;
+    }
+    .main-content h1 {
+        font-size: 20px;
+    }
+    .main-content h2 {
+        font-size: 18px;
+    }
+    .charts-container {
+        gap: 15px;
+    }
+    .chart-wrapper {
+        height: 250px;
+        padding: 15px;
+    }
+    .table-container {
+        padding: 10px;
+    }
+    .history-table th,
+    .history-table td {
+        padding: 8px 10px;
+        font-size: 12px;
+    }
 }
 
 .history-table tbody tr:hover {
@@ -254,4 +629,138 @@ body {
     padding: 40px;
     color: #6c757d;
     font-size: 16px;
+}/* --- Global Styles & Variables --- */
+:root {
+    --sidebar-bg: #2a3a8d;
+    --accent-blue: #007bff;
+    --white-color: #ffffff;
+    --main-bg: #f4f7fc;
+    --text-color: #333;
+    --light-border: #e9ecef;
+    --shadow-color: rgba(0, 0, 0, 0.05);
 }
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: var(--main-bg);
+    min-height: 100vh;
+}
+
+/* ... (Your existing styles for sidebar, main-content, tables, etc.) ... */
+
+.charts-container {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.chart-wrapper {
+    flex: 1;
+    min-width: 300px;
+    max-width: 450px;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* --- NEW STYLES FOR PRODUCT GST PAGE --- */
+
+.search-container {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+.search-container .search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+}
+
+#product-search {
+    width: 100%;
+    padding: 12px 45px;
+    border: 1px solid var(--light-border);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    -webkit-appearance: none;
+}
+
+#product-search:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+}
+
+.clear-search-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.clear-search-btn.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.clear-search-btn:hover {
+    color: var(--text-color);
+}
+
+#no-results-message {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #6c757d;
+    background-color: var(--white-color);
+    border-radius: 10px;
+    margin-top: 20px;
+    border: 1px dashed var(--light-border);
+}
+
+.gst-info-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.gst-card {
+    background-color: var(--white-color);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    border-left: 5px solid var(--accent-blue);
+}
+
+.gst-card h3 {
+    color: var(--sidebar-bg);
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.gst-card p {
+    font-size: 14px;
+    margin-bottom: 0;
+    color: #6c757d;
+}
+
+/* ... (Your existing media queries) ... */

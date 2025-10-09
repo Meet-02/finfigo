@@ -1,9 +1,12 @@
+/* --- Global Styles & Variables --- */
 :root {
-    --sidebar-bg: #2a3a8d; /* Dark, professional blue */
-    --accent-blue: #007bff; /* Vibrant blue for active/hover states */
+    --sidebar-bg: #2a3a8d;
+    --accent-blue: #007bff;
     --white-color: #ffffff;
-    --main-bg: #f4f7fc; /* Light grey-blue for the main content area */
+    --main-bg: #f4f7fc;
     --text-color: #333;
+    --light-border: #e9ecef;
+    --shadow-color: rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -32,22 +35,19 @@ body {
 }
 
 .sidebar-header {
-    padding: 20px 0; /* Adjust padding as needed */
+    padding: 20px 0;
     display: flex;
-    justify-content: center; /* Center the logo horizontally */
+    justify-content: center;
     align-items: center;
     border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    margin-bottom: 40px; /* Keep consistent with original header spacing */
+    margin-bottom: 40px;
 }
 
-/* Style for the logo image itself */
 .logo-placeholder img {
-    max-width: 120px; /* Adjust this value to make the logo smaller */
-    height: auto; /* Maintain aspect ratio */
-    display: block; /* Remove extra space below image */
+    max-width: 120px;
+    height: auto;
+    display: block;
 }
-
-
 
 .nav-list {
     list-style: none;
@@ -66,7 +66,7 @@ body {
     text-decoration: none;
     transition: background-color 0.3s, color 0.3s;
     font-size: 16px;
-    cursor: pointer; /* Change cursor to indicate it's clickable */
+    cursor: pointer;
 }
 
 .nav-link i {
@@ -111,14 +111,14 @@ body {
 .main-content p {
     color: #6c757d;
     font-size: 16px;
-    margin-bottom: 30px; /* Added margin to separate from charts */
+    margin-bottom: 30px;
 }
 
-/* --- NEW CHART STYLES --- */
+/* --- Chart Styles (Dashboard Page) --- */
 .charts-container {
     display: flex;
     gap: 30px;
-    flex-wrap: wrap; /* Allows charts to stack on smaller screens */
+    flex-wrap: wrap;
     justify-content: center;
 }
 
@@ -126,29 +126,193 @@ body {
     flex: 1;
     min-width: 300px;
     max-width: 500px;
-    height: 320px;   /* ✅ FIX: lock height */
+    height: 320px;
     padding: 20px;
     background-color: #ffffff;
     border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    box-shadow: 0 4px 8px var(--shadow-color);
     display: flex;
     flex-direction: column;
-    justify-content: center; /* keeps canvas centered */
+    justify-content: center;
 }
 
 .chart-wrapper canvas {
-    width: 100% !important;  /* Chart.js will fit inside */
-    height: 100% !important; /* No infinite stretch */
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* --- Table Styles (History & Rules Pages) --- */
+.history-section h3 {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.table-container {
+    overflow-x: auto;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    padding: 20px;
+}
+
+.history-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.history-table th,
+.history-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid var(--light-border);
+}
+
+.history-table th {
+    background-color: var(--sidebar-bg);
+    color: var(--white-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+}
+
+.history-table tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+.insights-cell {
+    max-width: 200px;
+    word-wrap: break-word;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.no-history {
+    text-align: center;
+    padding: 40px;
+    color: #6c757d;
+    font-size: 16px;
+}
+
+/* --- Product GST Page Styles --- */
+/* --- Product GST Page Styles --- */
+
+/* Make sure the container is relative for positioning child elements */
+.search-container {
+    position: relative;
+    margin-bottom: 30px;
+}
+
+/* The search icon itself */
+.search-container .search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #999;
+    z-index: 2; /* Ensure it's above the input field background */
+}
+
+/* The search input field - MODIFIED */
+#product-search {
+    width: 100%;
+    padding: 12px 45px; /* Increased right padding for the clear button */
+    border: 1px solid var(--light-border);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: all 0.3s ease; /* Smooth transition for focus */
+    -webkit-appearance: none; /* Removes default browser styling on mobile */
+}
+
+/* Enhanced focus state */
+#product-search:focus {
+    outline: none;
+    border-color: var(--accent-blue);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
+}
+
+/* NEW: Clear search button 'x' */
+.clear-search-btn {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    opacity: 0; /* Hidden by default */
+    pointer-events: none; /* Not clickable when hidden */
+}
+
+/* Style for when the clear button is visible */
+.clear-search-btn.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.clear-search-btn:hover {
+    color: var(--text-color);
+}
+
+/* NEW: Style for the "no results" message */
+#no-results-message {
+    text-align: center;
+    padding: 40px;
+    font-size: 18px;
+    color: #6c757d;
+    background-color: var(--white-color);
+    border-radius: 10px;
+    margin-top: 20px;
+    border: 1px dashed var(--light-border);
 }
 
 
+/* --- Your other styles for .gst-info-container, .gst-card, etc. remain the same --- */
+.gst-info-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.gst-card {
+    background-color: var(--white-color);
+    padding: 25px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px var(--shadow-color);
+    border-left: 5px solid var(--accent-blue);
+    /* No display property here, it will be controlled by JS */
+}
+
+/* ... etc. */
+
+.gst-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.gst-card h3 {
+    color: var(--sidebar-bg);
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.gst-card p {
+    font-size: 14px;
+    margin-bottom: 0; /* Adjusted for no list */
+    color: #6c757d;
+}
+
+/* --- Responsive Media Queries --- */
 @media (max-width: 768px) {
     .sidebar {
         width: 80px;
     }
     .sidebar-header {
         margin-bottom: 30px;
-        display: flex;
     }
     .nav-link span {
         display: none;
@@ -157,7 +321,7 @@ body {
         margin-right: 0;
     }
     .logo-placeholder img {
-        max-width: 80px;
+        max-width: 50px;
     }
     .main-content {
         padding: 20px;
@@ -166,7 +330,7 @@ body {
         font-size: 24px;
     }
     .chart-wrapper {
-        min-width: 250px;
+        min-width: 100%;
         height: 280px;
     }
 }
@@ -180,7 +344,7 @@ body {
         margin-bottom: 20px;
     }
     .logo-placeholder img {
-        max-width: 50px;
+        max-width: 40px;
     }
     .nav-link {
         padding: 10px;
@@ -198,75 +362,15 @@ body {
         gap: 15px;
     }
     .chart-wrapper {
-        min-width: 200px;
         height: 250px;
         padding: 15px;
     }
     .table-container {
-        padding: 15px;
+        padding: 10px;
     }
     .history-table th,
     .history-table td {
         padding: 8px 10px;
         font-size: 12px;
     }
-}
-
-/* --- History Table Styles --- */
-.history-section h3 {
-    color: var(--text-color);
-    margin-bottom: 20px;
-    font-size: 18px;
-}
-
-.table-container {
-    overflow-x: auto;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    padding: 20px;
-}
-
-.history-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 14px;
-}
-
-.history-table th,
-.history-table td {
-    padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #e9ecef;
-}
-
-.history-table th {
-    background-color: var(--sidebar-bg);
-    color: var(--white-color);
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 12px;
-    letter-spacing: 0.5px;
-}
-
-.history-table tbody tr:hover {
-    background-color: #f8f9fa;
-}
-
-.history-table tbody tr:nth-child(even) {
-    background-color: #f8f9fa;
-}
-
-.insights-cell {
-    max-width: 200px;
-    word-wrap: break-word;
-    font-size: 12px;
-    color: #6c757d;
-}
-
-.no-history {
-    text-align: center;
-    padding: 40px;
-    color: #6c757d;
-    font-size: 16px;
 }
