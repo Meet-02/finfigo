@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - ITR & GST</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='dash_job.css') }}" />
+    <link rel="stylesheet" href="/static/dash_job.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
-    <!-- FIX: Changed protocol from http:// to https:// -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.js"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.js"></script>
 </head>
 
 <body>
@@ -18,10 +17,9 @@
         <div>
             <div class="sidebar-header">
                 <div class="logo-placeholder">
-                    <img src="{{ url_for('static', filename='IMAGES/finfigo.jpg') }}" alt="Price Graph">
+                    <img src="{{ url_for('static', filename='IMAGES/finfigo.jpg') }}" alt="Finfigo Logo">
                 </div>
             </div>
-
             <nav class="sidebar-nav">
                 <ul class="nav-list">
                     <li class="nav-item">
@@ -43,15 +41,20 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="product-gst">
+                            <i class="fas fa-box-open"></i>
+                            <span>Product GST</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="#" class="nav-link" data-page="rules">
-                            <i class="fas fa-file-alt"></i>
+                            <i class="fas fa-gavel"></i>
                             <span>Rules</span>
                         </a>
                     </li>
                 </ul>
             </nav>
         </div>
-
         <div class="logout-section">
             <ul class="nav-list">
                 <li class="nav-item">
@@ -78,104 +81,34 @@
                     <h2>Yearly Tax Paid</h2>
                     <canvas id="netPayableTaxChart"></canvas>
                 </div>
-
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
-                        // Data from backend - ALL calculations
-                        const calculationLabels = {{ labels | tojson
-                    }};
-                    const grossIncomeData = {{ gross_income_data | tojson }};
-                    const taxData = {{ tax_data | tojson }};
-                    const netIncomeData = {{ net_income_data | tojson }};
-
-                    // 1. Gross & Net Income (Line Chart)
-                    try {
-                        const revenueCtx = document.getElementById('revenuePieChart').getContext('2d');
-                        new Chart(revenueCtx, {
-                            type: 'line',
-                            data: {
-                                labels: calculationLabels,
-                                datasets: [
-                                    {
-                                        label: 'Gross Income',
-                                        data: grossIncomeData,
-                                        fill: true,
-                                        backgroundColor: 'rgba(0, 123, 255, 0.2)',
-                                        borderColor: 'rgba(0, 123, 255, 1)',
-                                        tension: 0.1
-                                    },
-                                    {
-                                        label: 'Net Income',
-                                        data: netIncomeData,
-                                        fill: true,
-                                        backgroundColor: 'rgba(40, 167, 69, 0.2)',
-                                        borderColor: 'rgba(40, 167, 69, 1)',
-                                        tension: 0.1
-                                    }
-                                ]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
-                                }
-                            }
-                        });
-                    } catch (error) {
-                        console.error("Error creating Revenue chart:", error);
-                    }
-
-                    // 2. Tax Paid (Bar Chart)
-                    try {
-                        const taxCtx = document.getElementById('netPayableTaxChart').getContext('2d');
-                        new Chart(taxCtx, {
-                            type: 'bar',
-                            data: {
-                                labels: calculationLabels,
-                                datasets: [{
-                                    label: 'Tax Paid (₹)',
-                                    data: taxData,
-                                    backgroundColor: 'rgba(220, 53, 69, 0.6)',
-                                    borderColor: 'rgba(220, 53, 69, 1)',
-                                    borderWidth: 1,
-                                    borderRadius: 5
-                                }]
-                            },
-                            options: {
-                                responsive: true,
-                                maintainAspectRatio: false,  // ✅ respects fixed height now
-                                scales: {
-                                    y: {
-                                        beginAtZero: true
-                                    }
-                                }
-                            }
-
-                        });
-                    } catch (error) {
-                        console.error("Error creating Tax chart:", error);
-                    }
+                        if (typeof Chart !== 'undefined') { // Check if Chart.js is loaded
+                            const calculationLabels = {{ labels | tojson }};
+                            const grossIncomeData = {{ gross_income_data | tojson }};
+                            const taxData = {{ tax_data | tojson }};
+                            const netIncomeData = {{ net_income_data | tojson }};
+                            try {
+                                const revenueCtx = document.getElementById('revenuePieChart').getContext('2d');
+                                new Chart(revenueCtx, { type: 'line', data: { labels: calculationLabels, datasets: [{ label: 'Gross Income', data: grossIncomeData, fill: true, backgroundColor: 'rgba(0, 123, 255, 0.2)', borderColor: 'rgba(0, 123, 255, 1)', tension: 0.1 }, { label: 'Net Income', data: netIncomeData, fill: true, backgroundColor: 'rgba(40, 167, 69, 0.2)', borderColor: 'rgba(40, 167, 69, 1)', tension: 0.1 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } } });
+                            } catch (e) { console.error("Error creating Revenue chart:", e); }
+                            try {
+                                const taxCtx = document.getElementById('netPayableTaxChart').getContext('2d');
+                                new Chart(taxCtx, { type: 'bar', data: { labels: calculationLabels, datasets: [{ label: 'Tax Paid (₹)', data: taxData, backgroundColor: 'rgba(220, 53, 69, 0.6)', borderColor: 'rgba(220, 53, 69, 1)', borderWidth: 1, borderRadius: 5 }] }, options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero: true } } } });
+                            } catch (e) { console.error("Error creating Tax chart:", e); }
+                        }
                     });
                 </script>
                 {% else %}
                 <p>No calculations found. Complete your first tax calculation to see graphs here.</p>
                 {% endif %}
             </div>
-
-            </div>
         </section>
 
         <section id="history-content" class="page-content" style="display: none;">
             <h1>Filing History</h1>
-
-            <!-- History Table Section -->
             <div class="history-section">
-                <h3><i class="fa-solid fa-clock-rotate-left"></i> Calculation History (Total: {{ history|length if
-                    history else 0 }})</h3>
-
+                <h3><i class="fa-solid fa-clock-rotate-left"></i> Calculation History (Total: {{ history|length if history else 0 }})</h3>
                 {% if history %}
                 <div class="table-container">
                     <table class="history-table">
@@ -195,18 +128,14 @@
                             <tr>
                                 <td>{{ loop.index }}</td>
                                 <td>{{ calc.financial_year }}</td>
-                                <td>{{ calc.created_at_display }}</td> 
+                                <td>{{ calc.created_at_display }}</td>
                                 <td>{{ "%.2f"|format(calc.gross_income) }}</td>
                                 <td>{{ "%.2f"|format(calc.tax) }}</td>
                                 <td>{{ "%.2f"|format(calc.net_income) }}</td>
                                 <td>
-                                    {% if calc.insights and calc.insights != "Could not generate AI insights at this
-                                    time." %}
-                                    <div class="insights-cell">{{ calc.insights[:100] }}{% if calc.insights|length > 100
-                                        %}...{% endif %}</div>
-                                    {% else %}
-                                    -
-                                    {% endif %}
+                                    {% if calc.insights and calc.insights != "Could not generate AI insights at this time." %}
+                                    <div class="insights-cell">{{ calc.insights[:100] }}{% if calc.insights|length > 100 %}...{% endif %}</div>
+                                    {% else %} - {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
@@ -219,13 +148,41 @@
                 </div>
                 {% endif %}
             </div>
-            <!-- End History Table Section -->
-
         </section>
 
-        <section id="file-tax-content" class="page-content" style="display: none;">
-            <h1>File a New Tax Return</h1>
-            <p>The form for filing a new ITR or GST return will be placed here.</p>
+        <section id="product-gst-content" class="page-content" style="display: none;">
+            <h1>Product GST Information</h1>
+            <p>Find the Goods and Services Tax (GST) rate for various products in India. GST is divided into several slabs, primarily 0%, 5%, 12%, 18%, and 28%.</p>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="product-search" placeholder="Search for a GST rate (e.g., '12%')" autocomplete="off">
+                <span class="clear-search-btn">&times;</span>
+            </div>
+            <div class="gst-info-container">
+                <div class="gst-card">
+                    <h3>Exempted (0% GST)</h3>
+                    <p>Essential items that are not taxed under GST.</p>
+                </div>
+                <div class="gst-card">
+                    <h3>5% GST Slab</h3>
+                    <p>Commonly used mass consumption items.</p>
+                </div>
+                <div class="gst-card">
+                    <h3>12% GST Slab</h3>
+                    <p>Includes various processed foods and other common items.</p>
+                </div>
+                <div class="gst-card">
+                    <h3>18% GST Slab</h3>
+                    <p>This is the standard rate that applies to a wide range of goods and services.</p>
+                </div>
+                <div class="gst-card">
+                    <h3>28% GST Slab</h3>
+                    <p>Primarily applies to luxury goods and 'sin' goods.</p>
+                </div>
+            </div>
+            <div id="no-results-message" style="display: none;">
+                No results found.
+            </div>
         </section>
 
         <section id="rules-content" class="page-content" style="display: none;">
@@ -271,7 +228,6 @@
             </div>
         </section>
     </main>
-    <script src="{{ url_for('static', filename='dash_job.js') }}"></script>
+    <script src="/static/dash_job.js"></script>
 </body>
-
 </html>

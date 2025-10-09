@@ -5,8 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Financial Overview</title>
-
-    <link rel="stylesheet" href="{{ url_for('static', filename='dash_bus.css') }}" />
+    <link rel="stylesheet" href="/static/dash_bus.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -18,8 +17,7 @@
         <div>
             <div class="sidebar-header">
                 <div class="logo-placeholder">
-                    <img src="{{ url_for('static', filename='IMAGES/finfigo.jpg') }}" alt="Price Graph">
-
+                    <img src="{{ url_for('static', filename='IMAGES/finfigo.jpg') }}" alt="Finfigo Logo">
                 </div>
             </div>
             <nav class="sidebar-nav">
@@ -43,8 +41,14 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="product-gst">
+                            <i class="fas fa-box-open"></i>
+                            <span>Product GST</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a href="#" class="nav-link" data-page="rules">
-                            <i class="fas fa-file-alt"></i>
+                            <i class="fas fa-gavel"></i>
                             <span>Rules</span>
                         </a>
                     </li>
@@ -81,83 +85,31 @@
                     <h2>Tax Payable</h2>
                     <canvas id="taxPayableChart"></canvas>
                 </div>
-
-
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
-                        const calculationLabels = {{ labels | tojson
-                    }};
-                    const revenueData = {{ revenue_data | tojson }};
-                    const gstData = {{ gst_data | tojson }};
-                    const taxData = {{ tax_data | tojson }};
+                        if (typeof Chart !== 'undefined') {
+                            const calculationLabels = {{ labels | tojson }};
+                            const revenueData = {{ revenue_data | tojson }};
+                            const gstData = {{ gst_data | tojson }};
+                            const taxData = {{ tax_data | tojson }};
 
-                    console.log("Labels:", calculationLabels);
-                    console.log("Revenue:", revenueData);
-                    console.log("GST:", gstData);
-                    console.log("Tax:", taxData);
+                            try {
+                                const revenueCtx = document.getElementById('annualRevenueChart').getContext('2d');
+                                new Chart(revenueCtx, { type: 'line', data: { labels: calculationLabels, datasets: [{ label: 'Gross Revenue (₹)', data: revenueData, borderColor: 'rgba(40, 167, 69, 1)', backgroundColor: 'rgba(40, 167, 69, 0.2)', fill: true, tension: 0.1 }] }, options: { responsive: true, scales: { y: { beginAtZero: true } } } });
+                            } catch (error) { console.error("Error creating Revenue chart:", error); }
 
-                    // --- Revenue Line Chart ---
-                    try {
-                        const revenueCtx = document.getElementById('annualRevenueChart').getContext('2d');
-                        new Chart(revenueCtx, {
-                            type: 'line',
-                            data: {
-                                labels: calculationLabels,
-                                datasets: [{
-                                    label: 'Gross Revenue (₹)',
-                                    data: revenueData,
-                                    borderColor: 'rgba(40, 167, 69, 1)',
-                                    backgroundColor: 'rgba(40, 167, 69, 0.2)',
-                                    fill: true,
-                                    tension: 0.1
-                                }]
-                            },
-                            options: { responsive: true, scales: { y: { beginAtZero: true } } }
-                        });
-                    } catch (error) { console.error("Error creating Revenue chart:", error); }
+                            try {
+                                const gstCtx = document.getElementById('monthlyGstChart').getContext('2d');
+                                new Chart(gstCtx, { type: 'line', data: { labels: calculationLabels, datasets: [{ label: 'GST Payable (₹)', data: gstData, borderColor: 'rgba(255, 193, 7, 1)', backgroundColor: 'rgba(255, 193, 7, 0.2)', fill: true, tension: 0.1 }] }, options: { responsive: true, scales: { y: { beginAtZero: true } } } });
+                            } catch (error) { console.error("Error creating GST chart:", error); }
 
-                    // --- GST Line Chart ---
-                    try {
-                        const gstCtx = document.getElementById('monthlyGstChart').getContext('2d');
-                        new Chart(gstCtx, {
-                            type: 'line',
-                            data: {
-                                labels: calculationLabels,
-                                datasets: [{
-                                    label: 'GST Payable (₹)',
-                                    data: gstData,
-                                    borderColor: 'rgba(255, 193, 7, 1)',
-                                    backgroundColor: 'rgba(255, 193, 7, 0.2)',
-                                    fill: true,
-                                    tension: 0.1
-                                }]
-                            },
-                            options: { responsive: true, scales: { y: { beginAtZero: true } } }
-                        });
-                    } catch (error) { console.error("Error creating GST chart:", error); }
-
-                    // --- Tax Bar Chart ---
-                    try {
-                        const taxCtx = document.getElementById('taxPayableChart').getContext('2d');
-                        new Chart(taxCtx, {
-                            type: 'bar',
-                            data: {
-                                labels: calculationLabels,
-                                datasets: [{
-                                    label: 'Income Tax Payable (₹)',
-                                    data: taxData,
-                                    backgroundColor: 'rgba(220, 53, 69, 0.6)',
-                                    borderColor: 'rgba(220, 53, 69, 1)',
-                                    borderWidth: 1,
-                                    borderRadius: 5
-                                }]
-                            },
-                            options: { responsive: true, scales: { y: { beginAtZero: true } } }
-                        });
-                    } catch (error) { console.error("Error creating Tax chart:", error); }
+                            try {
+                                const taxCtx = document.getElementById('taxPayableChart').getContext('2d');
+                                new Chart(taxCtx, { type: 'bar', data: { labels: calculationLabels, datasets: [{ label: 'Income Tax Payable (₹)', data: taxData, backgroundColor: 'rgba(220, 53, 69, 0.6)', borderColor: 'rgba(220, 53, 69, 1)', borderWidth: 1, borderRadius: 5 }] }, options: { responsive: true, scales: { y: { beginAtZero: true } } } });
+                            } catch (error) { console.error("Error creating Tax chart:", error); }
+                        }
                     });
                 </script>
-
                 {% else %}
                 <p>No business calculations found. Complete your first business tax calculation to see graphs here.</p>
                 {% endif %}
@@ -166,12 +118,8 @@
 
         <section id="history-content" class="page-content" style="display: none;">
             <h1>Filing History</h1>
-
-            <!-- History Table Section -->
             <div class="history-section">
-                <h3><i class="fa-solid fa-clock-rotate-left"></i> Business Calculation History (Total: {{ history|length
-                    if history else 0 }})</h3>
-
+                <h3><i class="fa-solid fa-clock-rotate-left"></i> Business Calculation History (Total: {{ history|length if history else 0 }})</h3>
                 {% if history %}
                 <div class="table-container">
                     <table class="history-table">
@@ -196,13 +144,9 @@
                                 <td>{{ "%.2f"|format(calc.gst_payable) }}</td>
                                 <td>{{ "%.2f"|format(calc.final_tax_payable) }}</td>
                                 <td>
-                                    {% if calc.insights and calc.insights != "Could not generate AI insights at this
-                                    time." %}
-                                    <div class="insights-cell">{{ calc.insights[:100] }}{% if calc.insights|length > 100
-                                        %}...{% endif %}</div>
-                                    {% else %}
-                                    -
-                                    {% endif %}
+                                    {% if calc.insights and calc.insights != "Could not generate AI insights at this time." %}
+                                    <div class="insights-cell">{{ calc.insights[:100] }}{% if calc.insights|length > 100 %}...{% endif %}</div>
+                                    {% else %} - {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
@@ -211,18 +155,45 @@
                 </div>
                 {% else %}
                 <div class="no-history">
-                    <p>No business tax calculations found. Complete your first business tax calculation to see history
-                        here.</p>
+                    <p>No business tax calculations found. Complete your first business tax calculation to see history here.</p>
                 </div>
                 {% endif %}
             </div>
-            <!-- End History Table Section -->
-
         </section>
 
-        <section id="file-tax-content" class="page-content" style="display: none;">
-            <h1>File a New Tax Return</h1>
-            <p>The form for filing a new ITR or GST return will be placed here.</p>
+        <section id="product-gst-content" class="page-content" style="display: none;">
+            <h1>Product GST Information</h1>
+            <p>Find the Goods and Services Tax (GST) rate for various products in India. GST is divided into several slabs, primarily 0%, 5%, 12%, 18%, and 28%.</p>
+            <div class="search-container">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="product-search" placeholder="Search for a GST rate (e.g., '12%')" autocomplete="off">
+                <span class="clear-search-btn">&times;</span>
+            </div>
+            <div class="gst-info-container">
+                <div class="gst-card">
+                    <h3>Exempted (0% GST)</h3>
+                    <p>Essential items that are not taxed under GST.</p>
+                </div>
+                <div class="gst-card">
+                    <h3>5% GST Slab</h3>
+                    <p>Commonly used mass consumption items.</p>
+                </div>
+                <div class="gst-card">
+                    <h3>12% GST Slab</h3>
+                    <p>Includes various processed foods and other common items.</p>
+                </div>
+                <div class="gst-card">
+                    <h3>18% GST Slab</h3>
+                    <p>This is the standard rate that applies to a wide range of goods and services.</p>
+                </div>
+                <div class="gst-card">
+                    <h3>28% GST Slab</h3>
+                    <p>Primarily applies to luxury goods and 'sin' goods.</p>
+                </div>
+            </div>
+            <div id="no-results-message" style="display: none;">
+                No results found.
+            </div>
         </section>
 
         <section id="rules-content" class="page-content" style="display: none;">
@@ -271,5 +242,4 @@
 
     <script src="/static/dash_bus.js"></script>
 </body>
-
 </html>
