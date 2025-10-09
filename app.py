@@ -729,12 +729,41 @@ def download_job_report():
             'final_tax_due': final_tax_due,
         }
     }
-
     # Generate PDF
     buffer = create_job_report(data)
 
     # Return PDF
     return send_file(buffer, as_attachment=True, download_name='job_tax_report.pdf', mimetype='application/pdf')
+
+@app.route('/gst_rates', methods=['GET'])
+def gst_rates():
+    chapter_heading_data = request.args.get('data')
+
+    if not chapter_heading_data:
+        return jsonify({'error': 'Missing required parameter: data (chapter_heading)'})
+
+    try:
+        with get_connection() as conn:
+            with conn.cursor(buffered=True, dictionary=True) as cur:
+                query = 'SELECT * FROM gst_rates WHERE chapter_heading = %s'
+                cur.execute(query, (chapter_heading_data,))
+                results = cur.fetchall()
+            
+        if not results:
+            return jsonify({
+                'message': f"No GST data found for chapter_heading: {chapter_heading_data}"
+            })
+        
+        return jsonify(results), 200
+
+    except mysql.connector.Error as err:
+        print(f"Database Error: {err}")
+        return jsonify({'error': 'Database operation failed', 'details': str(err)})
+    except Exception as e:
+        print(f"Unhandled Error: {e}")
+        return jsonify({'error': 'An unexpected error occurred', 'details': str(e)})
+    return render_template('gst_rates.html')
+
 
 
 if __name__ == '__main__':

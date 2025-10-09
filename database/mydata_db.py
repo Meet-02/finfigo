@@ -171,6 +171,15 @@ def init_db():
                 FOREIGN KEY(person_id) REFERENCES people_info(id)
             )''')
             execute_ddl(cursor, '''
+            CREATE TABLE IF NOT EXISTS gst_rates (
+                serial_no INT PRIMARY KEY AUTO_INCREMENT,
+                chapter_heading VARCHAR(50),
+                description TEXT,
+                cgst_rate DECIMAL(5,2),
+                sgst_rate DECIMAL(5,2),
+                igst_rate DECIMAL(5,2)
+             )''')
+            execute_ddl(cursor, '''
             CREATE TABLE IF NOT EXISTS income_details (
                 detail_id INTEGER PRIMARY KEY AUTO_INCREMENT,
                 business_id INTEGER,
