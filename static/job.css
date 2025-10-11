@@ -120,20 +120,87 @@ body {
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+    #header {
+        width: 90%;
+        padding: 0.7rem 1.5rem;
+    }
+    
+    .banner {
+        width: 95%;
+        padding: 1.8rem;
+    }
+    
+    .banner h1 {
+        font-size: 1.8rem;
+    }
+    
+    .outer-container {
+        padding: 2.5rem 1rem;
+    }
+    
+    .content-container {
+        max-width: 650px;
+    }
+}
+
 @media (max-width: 768px) {
     #header {
         flex-direction: column;
         gap: 0.5rem;
+        width: 95%;
+        padding: 0.6rem 1rem;
     }
+    
+    .logo-area {
+        font-size: 1rem;
+    }
+    
+    #header img {
+        height: 30px;
+    }
+    
     .banner {
         font-size: 0.9rem;
+        width: 95%;
+        padding: 1.5rem;
+        margin-top: 70px;
     }
-    .stepper{
+    
+    .banner h1 {
+        font-size: 1.6rem;
+    }
+    
+    .banner p {
+        font-size: 0.9rem;
+    }
+    
+    .stepper {
         padding-left: 2.5rem;
         width: 80%;
+        max-width: 90%;
     }
-    .line{
+    
+    .line {
         width: 1%;
+    }
+    
+    .outer-container {
+        padding: 2rem 0.8rem;
+    }
+    
+    .content-container {
+        padding: 1.5rem;
+        max-width: 100%;
+    }
+    
+    .form-section h1 {
+        font-size: 1.4rem;
+    }
+    
+    .input-field {
+        padding: 12px;
+        font-size: 14px;
     }
 }
 
@@ -366,5 +433,67 @@ button {
     .front {
         padding: 10px 20px;
         font-size: 1rem;
+    }
+}
+
+@media (max-width: 320px) {
+    #header {
+        padding: 0.4rem 0.8rem;
+        width: 99%;
+    }
+    
+    .logo-area {
+        font-size: 0.9rem;
+    }
+    
+    #header img {
+        height: 25px;
+    }
+    
+    .banner {
+        padding: 1rem;
+        margin-top: 65px;
+        width: 99%;
+    }
+    
+    .banner h1 {
+        font-size: 1.2rem;
+    }
+    
+    .banner p {
+        font-size: 0.75rem;
+    }
+    
+    .outer-container {
+        padding: 1rem 0.3rem;
+    }
+    
+    .content-container {
+        padding: 1rem;
+    }
+    
+    .form-section h1 {
+        font-size: 1.1rem;
+    }
+    
+    .stepper {
+        left: 1%;
+        width: 98%;
+    }
+    
+    .step {
+        width: 22px;
+        height: 22px;
+        font-size: 0.6rem;
+    }
+    
+    .input-field {
+        padding: 8px;
+        font-size: 12px;
+    }
+    
+    .front {
+        padding: 8px 16px;
+        font-size: 0.9rem;
     }
 }

@@ -155,17 +155,210 @@ body {
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+    #header {
+        width: 90%;
+        padding: 0.7rem 1.5rem;
+    }
+    
+    .banner {
+        width: 95%;
+        padding: 1.8rem;
+    }
+    
+    .banner h1 {
+        font-size: 1.8rem;
+    }
+    
+    .outer-container {
+        padding: 2.5rem 1rem;
+    }
+    
+    .content-container {
+        max-width: 650px;
+    }
+}
+
 @media (max-width: 768px) {
     #header {
         flex-direction: column;
         gap: 0.5rem;
+        width: 95%;
+        padding: 0.6rem 1rem;
     }
+    
+    .logo-area {
+        font-size: 1rem;
+    }
+    
+    #header img {
+        height: 30px;
+    }
+    
     .banner {
         font-size: 0.9rem;
+        padding: 1.5rem;
+        margin-top: 70px;
+        width: 95%;
     }
-    .stepper{
+    
+    .banner h1 {
+        font-size: 1.6rem;
+    }
+    
+    .banner p {
+        font-size: 0.9rem;
+    }
+    
+    .stepper {
         padding-left: 2.5rem;
         width: 80%;
+        max-width: 90%;
+    }
+    
+    .outer-container {
+        padding: 2rem 0.8rem;
+    }
+    
+    .content-container {
+        padding: 1.5rem;
+        max-width: 100%;
+    }
+    
+    .form-section h1 {
+        font-size: 1.4rem;
+    }
+    
+    .input-field {
+        padding: 12px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    #header {
+        padding: 0.5rem 0.8rem;
+        width: 98%;
+    }
+    
+    .logo-area {
+        font-size: 0.9rem;
+    }
+    
+    #header img {
+        height: 25px;
+    }
+    
+    .banner {
+        padding: 1.2rem;
+        margin-top: 60px;
+        width: 98%;
+    }
+    
+    .banner h1 {
+        font-size: 1.4rem;
+    }
+    
+    .banner p {
+        font-size: 0.8rem;
+    }
+    
+    .stepper {
+        padding-left: 1.5rem;
+        width: 85%;
+        max-width: 95%;
+    }
+    
+    .step {
+        width: 28px;
+        height: 28px;
+        font-size: 0.8rem;
+    }
+    
+    .outer-container {
+        padding: 1.5rem 0.5rem;
+    }
+    
+    .content-container {
+        padding: 1.2rem;
+    }
+    
+    .form-section h1 {
+        font-size: 1.2rem;
+    }
+    
+    .input-field {
+        padding: 10px;
+        font-size: 13px;
+    }
+    
+    .button {
+        padding-top: 3rem;
+    }
+    
+    .front {
+        padding: 10px 20px;
+        font-size: 1rem;
+    }
+}
+
+@media (max-width: 320px) {
+    #header {
+        padding: 0.4rem 0.6rem;
+    }
+    
+    .logo-area {
+        font-size: 0.8rem;
+    }
+    
+    #header img {
+        height: 22px;
+    }
+    
+    .banner {
+        padding: 1rem;
+        margin-top: 55px;
+    }
+    
+    .banner h1 {
+        font-size: 1.2rem;
+    }
+    
+    .banner p {
+        font-size: 0.75rem;
+    }
+    
+    .stepper {
+        padding-left: 1rem;
+        width: 90%;
+    }
+    
+    .step {
+        width: 25px;
+        height: 25px;
+        font-size: 0.7rem;
+    }
+    
+    .outer-container {
+        padding: 1rem 0.3rem;
+    }
+    
+    .content-container {
+        padding: 1rem;
+    }
+    
+    .form-section h1 {
+        font-size: 1.1rem;
+    }
+    
+    .input-field {
+        padding: 8px;
+        font-size: 12px;
+    }
+    
+    .front {
+        padding: 8px 16px;
+        font-size: 0.9rem;
     }
 }
 

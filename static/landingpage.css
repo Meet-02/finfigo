@@ -293,23 +293,209 @@
   }
   
   /* Responsive */
+  @media (max-width: 1024px) {
+    .hero-section {
+      padding: 3rem 3%;
+    }
+    
+    .hero-title {
+      font-size: 2.4rem;
+    }
+    
+    .hero-features li {
+      font-size: 1.2rem;
+    }
+    
+    .about-section {
+      padding: 7rem 5%;
+    }
+    
+    .section-title {
+      font-size: 3.5rem;
+    }
+  }
+
   @media (max-width: 768px) {
+    #header {
+      padding: 0.8rem 1.5rem;
+    }
+    
+    .logo {
+      width: 140px;
+    }
+    
+    .header-buttons .btn {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+    
     .hero-section {
       flex-direction: column;
       text-align: center;
+      padding: 2rem 3%;
     }
-  
+    
+    .hero-title {
+      font-size: 2rem;
+    }
+    
+    .hero-features li {
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+    }
+    
     .hero-right {
       margin-top: 2rem;
     }
-  
-    .about-grid {
-      flex-direction: column;
-      align-items: center;
+    
+    .hero-right img {
+      max-height: 300px;
     }
-  
+    
+    .btn-content {
+      font-size: 24px;
+      padding: 4px 25px;
+    }
+    
+    .about-section {
+      padding: 5rem 4%;
+    }
+    
+    .section-title {
+      font-size: 3rem;
+      margin-bottom: 3rem;
+    }
+    
+    .about-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    
     .about-card {
-      max-width: 90%;
+      max-width: 100%;
+      width: 100%;
+    }
+    
+    .img1, .img3 {
+      width: 15rem;
+    }
+    
+    .img2 {
+      width: 10rem;
+    }
+    
+    .about-card li {
+      margin: 1rem 20px;
+      font-size: 0.9rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    #header {
+      padding: 0.6rem 1rem;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .logo {
+      width: 120px;
+    }
+    
+    .header-buttons {
+      gap: 0.5rem;
+    }
+    
+    .header-buttons .btn {
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+    
+    .hero-section {
+      padding: 1.5rem 2%;
+    }
+    
+    .hero-title {
+      font-size: 1.6rem;
+    }
+    
+    .hero-features li {
+      font-size: 1rem;
+      margin-bottom: 0.6rem;
+    }
+    
+    .hero-right img {
+      max-height: 250px;
+    }
+    
+    .btn-content {
+      font-size: 20px;
+      padding: 3px 20px;
+    }
+    
+    .about-section {
+      padding: 3rem 3%;
+    }
+    
+    .section-title {
+      font-size: 2.2rem;
+      margin-bottom: 2rem;
+    }
+    
+    .about-card {
+      padding: 1.5rem;
+    }
+    
+    .img1, .img3 {
+      width: 12rem;
+    }
+    
+    .img2 {
+      width: 8rem;
+    }
+    
+    .about-card li {
+      margin: 0.8rem 15px;
+      font-size: 0.85rem;
+    }
+    
+    .social-links {
+      gap: 30px;
+    }
+    
+    .footer-links a {
+      font-size: 14px;
+      margin: 0 8px;
+    }
+  }
+
+  @media (max-width: 320px) {
+    .hero-title {
+      font-size: 1.4rem;
+    }
+    
+    .hero-features li {
+      font-size: 0.9rem;
+    }
+    
+    .section-title {
+      font-size: 1.8rem;
+    }
+    
+    .about-card {
+      padding: 1rem;
+    }
+    
+    .img1, .img3 {
+      width: 10rem;
+    }
+    
+    .img2 {
+      width: 6rem;
+    }
+    
+    .about-card li {
+      font-size: 0.8rem;
+      margin: 0.6rem 10px;
     }
   }
 
