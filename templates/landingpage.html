@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Responsive ITR & GST Site</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='landingpage.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 
 </head>
@@ -16,6 +17,61 @@
     rel="stylesheet">
 
 <body>
+
+    <!-- Mobile Menu Button -->
+    <button id="mobile-menu-btn" class="mobile-menu-btn">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar Overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-logo">
+                <img src="{{ url_for('static', filename='IMAGES/Untitled__2_-removebg-preview.png') }}" alt="Logo">
+                <span>FinFigo</span>
+            </div>
+            <button id="sidebar-close" class="sidebar-close">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="/" class="nav-link active">
+                        <i class="fas fa-home"></i>
+                        <span>Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/signup" class="nav-link">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Sign Up</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="/signup" class="nav-link">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#about" class="nav-link">
+                        <i class="fas fa-info-circle"></i>
+                        <span>About</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#contact" class="nav-link">
+                        <i class="fas fa-envelope"></i>
+                        <span>Contact</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </aside>
 
     <header id="header">
         <a id="logo" href="#">
@@ -164,7 +220,7 @@
         <p style="font-size: 13px; color: #999;">&copy; 2025 ITR & GST Solutions. All rights reserved.</p>
     </footer>
 
-
+    <script src="{{ url_for('static', filename='sidebar.js') }}"></script>
 </body>
 
 </html>

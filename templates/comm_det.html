@@ -67,6 +67,42 @@
             color: white;
         }
 
+        /* Responsive Stepper Styles */
+        @media (max-width: 768px) {
+            .stepper {
+                max-width: 90%;
+                margin: 0 auto 20px auto;
+            }
+            .step {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stepper {
+                max-width: 95%;
+                margin: 0 auto 15px auto;
+            }
+            .step {
+                width: 25px;
+                height: 25px;
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .stepper {
+                max-width: 98%;
+            }
+            .step {
+                width: 22px;
+                height: 22px;
+                font-size: 0.6rem;
+            }
+        }
+
         /* --- END STEPPER STYLES --- */
     </style>
 </head>

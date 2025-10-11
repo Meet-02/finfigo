@@ -11,6 +11,11 @@
     color: #000;
   }
   
+  /* Mobile Menu Button */
+  .mobile-menu-btn {
+    display: none;
+  }
+
   /* Header */
   #header {
     display: flex;
@@ -316,6 +321,10 @@
   }
 
   @media (max-width: 768px) {
+    .mobile-menu-btn {
+      display: block;
+    }
+    
     #header {
       padding: 0.8rem 1.5rem;
     }

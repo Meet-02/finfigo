@@ -7,6 +7,11 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+/* Mobile Menu Button */
+.mobile-menu-btn {
+    display: none;
+}
+
 body{
     background-color: #c9d6ff;
     background: linear-gradient(to right, #e2e2e2, #c9d6ff);
@@ -225,6 +230,10 @@ body{
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .mobile-menu-btn {
+        display: block;
+    }
+    
     body {
         padding: 10px;
     }
