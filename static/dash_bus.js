@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-    // --- Single-Page Navigation Logic ---
     const navLinks = document.querySelectorAll('.nav-link[data-page]');
     const pageContents = document.querySelectorAll('.page-content');
 
@@ -21,49 +20,89 @@ document.addEventListener("DOMContentLoaded", function() {
         link.addEventListener('click', handleLinkClick);
     });
 
-    // --- Enhanced Search Bar for Product GST Page ---
     const searchInput = document.getElementById('product-search');
-    const gstCards = document.querySelectorAll('.gst-card');
-    const clearSearchBtn = document.querySelector('.clear-search-btn');
+    const gstInfoContainer = document.querySelector('.gst-info-container'); 
     const noResultsMessage = document.getElementById('no-results-message');
+    const clearSearchBtn = document.querySelector('.clear-search-btn');
 
-    if (searchInput && gstCards.length > 0) {
+    if (searchInput) {
         
-        function handleSearch() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            let visibleCardsCount = 0;
+        if (gstInfoContainer) {
+            gstInfoContainer.innerHTML = ''; 
+        }
+
+        /**
+         * Fetches GST rates dynamically from the Flask API.
+         * @param {string} searchTerm - The product name or chapter heading to search.
+         */
+        async function fetchGstRates(searchTerm) {
+            if (searchTerm.length < 2) {
+                if (gstInfoContainer) gstInfoContainer.innerHTML = '';
+                noResultsMessage.style.display = 'none';
+                return; 
+            }
+
+            const endpoint = `/gst_rates?data=${encodeURIComponent(searchTerm)}`;
+            
+            try {
+                const response = await fetch(endpoint);
+                const data = await response.json();
+
+                if (gstInfoContainer) gstInfoContainer.innerHTML = '';
+
+                if (response.status === 404) {
+                    noResultsMessage.textContent = `No results found for "${searchTerm}"`;
+                    noResultsMessage.style.display = 'block';
+                } else if (response.ok) {
+                    noResultsMessage.style.display = 'none';
+                    
+                    data.forEach(item => {
+                        const card = document.createElement('div');
+                        card.classList.add('gst-card', 'result-card');
+                        card.innerHTML = `
+                            <h3>Chapter: ${item.chapter_heading}</h3>
+                            <p><strong>Description:</strong> ${item.description}</p>
+                            <p class="rate"><strong>IGST Rate:</strong> ${item.igst_rate}% (Integrated GST)</p>
+                            <p class="sub-rate">CGST: ${item.cgst_rate}% | SGST: ${item.sgst_rate}%</p>
+                        `;
+                        if (gstInfoContainer) gstInfoContainer.appendChild(card);
+                    });
+                } else {
+                     // Handle general API/Database errors (status 500)
+                    noResultsMessage.textContent = `Error fetching data: ${data.details || data.error}`;
+                    noResultsMessage.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Fetch network error:', error);
+                noResultsMessage.textContent = 'Network or server connection failed.';
+                noResultsMessage.style.display = 'block';
+            }
+        }
+
+        function handleInput() {
+            const searchTerm = searchInput.value.trim();
 
             if (searchTerm.length > 0) {
                 clearSearchBtn.classList.add('visible');
             } else {
                 clearSearchBtn.classList.remove('visible');
-            }
-            
-            gstCards.forEach(card => {
-                const cardText = card.textContent.toLowerCase();
-                const isMatch = cardText.includes(searchTerm);
-                card.style.display = isMatch ? 'block' : 'none';
-                if (isMatch) {
-                    visibleCardsCount++;
-                }
-            });
-
-            if (visibleCardsCount === 0 && searchTerm.length > 0) {
-                noResultsMessage.textContent = `No results found for "${searchInput.value}"`;
-                noResultsMessage.style.display = 'block';
-            } else {
+                if (gstInfoContainer) gstInfoContainer.innerHTML = '';
                 noResultsMessage.style.display = 'none';
             }
+
+            fetchGstRates(searchTerm);
         }
 
-        searchInput.addEventListener('input', handleSearch);
+        searchInput.addEventListener('input', handleInput);
 
+        // Event listener for the clear button
         if (clearSearchBtn) {
             clearSearchBtn.addEventListener('click', function() {
-                searchInput.value = '';
-                handleSearch();
+                searchInput.value = ''; 
+                handleInput(); 
                 searchInput.focus();
             });
         }
     }
+
 });

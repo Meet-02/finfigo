@@ -17,6 +17,8 @@ TIDB_PASS = os.getenv("TIDB_PASS")
 TIDB_PORT = int(os.getenv("TIDB_PORT", 4000))
 # ---------------------------------------------------
 
+TIDB_GST_DB = os.getenv("TIDB_GST_DB")
+
 def create_app_database(db_name):
     """Connects to TiDB without a default DB to ensure the application DB exists."""
     conn = None
@@ -64,6 +66,41 @@ def get_db_connection():
     except mysql.connector.Error as err:
         print(f"TiDB Cloud connection failed: {err}")
         return None 
+
+def get_gst_db_connection():
+    """Establishes and returns a raw connection to the separate GST database."""
+    try:
+        conn = mysql.connector.connect(
+            host=TIDB_HOST,
+            port=TIDB_PORT,
+            user=TIDB_USER,
+            password=TIDB_PASS,
+            database=TIDB_GST_DB,  # <-- Uses the 'gst' database
+            connection_timeout=10
+        )
+        return conn
+    except mysql.connector.Error as err:
+        print(f"TiDB GST database connection failed: {err}")
+        return None
+    
+@contextmanager
+def get_gst_connection():
+    conn = get_gst_db_connection()
+    if conn is None:
+        raise ConnectionError("Failed to establish TiDB connection to GST DB.")
+    
+    conn.autocommit = False # Assuming you want transaction control for safety
+    
+    try:
+        cursor = conn.cursor(buffered=True)
+        yield conn
+        conn.commit()
+    except Exception as e:
+        conn.rollback()
+        raise e
+    finally:
+        if conn and conn.is_connected():
+            conn.close()
 
 
 @contextmanager

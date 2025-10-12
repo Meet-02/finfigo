@@ -10,8 +10,9 @@ from calc_bus import calc_bus_tax_new_regime
 from calc_gst import calculate_gst
 from pdf_gen import create_tax_report as create_job_report
 from bus_pdf_gen import create_tax_report as create_business_report
-from database.mydata_db import get_connection
+from database.mydata_db import get_connection,get_gst_connection
 import datetime
+
 
 app = Flask(__name__)
 app.secret_key = 'your_super_secret_key_12345'
@@ -735,33 +736,40 @@ def download_job_report():
     # Return PDF
     return send_file(buffer, as_attachment=True, download_name='job_tax_report.pdf', mimetype='application/pdf')
 
+
 @app.route('/gst_rates', methods=['GET'])
 def gst_rates():
-    chapter_heading_data = request.args.get('data')
+    search_term = request.args.get('data')
 
-    if not chapter_heading_data:
-        return jsonify({'error': 'Missing required parameter: data (chapter_heading)'})
+    if not search_term:
+        # If no search term is provided, fetch everything (or 
+        return jsonify({'error': 'Please enter a product or category to search.'}), 400 
 
+    # Prepare search term for SQL LIKE operation: "%term%"
+    sql_search_term = '%' + search_term.strip() + '%'
+    
     try:
-        with get_connection() as conn:
+        with get_gst_connection() as conn: 
             with conn.cursor(buffered=True, dictionary=True) as cur:
-                query = 'SELECT * FROM gst_rates WHERE chapter_heading = %s'
-                cur.execute(query, (chapter_heading_data,))
+                query = """
+                SELECT serial_no, chapter_heading, description, cgst_rate, sgst_rate, igst_rate 
+                FROM gst_rates 
+                WHERE description LIKE %s OR chapter_heading LIKE %s
+                LIMIT 50;
+                """
+                cur.execute(query, (sql_search_term, sql_search_term))
                 results = cur.fetchall()
             
+
         if not results:
             return jsonify({
-                'message': f"No GST data found for chapter_heading: {chapter_heading_data}"
-            })
+                'message': f"No GST data found matching: {search_term}"
+            }), 404
         
         return jsonify(results), 200
 
-    except mysql.connector.Error as err:
-        print(f"Database Error: {err}")
-        return jsonify({'error': 'Database operation failed', 'details': str(err)})
     except Exception as e:
-        print(f"Unhandled Error: {e}")
-        return jsonify({'error': 'An unexpected error occurred', 'details': str(e)})
+        return jsonify({'error': 'An unexpected error occurred', 'details': str(e)}), 500
     return render_template('gst_rates.html')
 
 
