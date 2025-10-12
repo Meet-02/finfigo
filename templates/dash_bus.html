@@ -13,6 +13,60 @@
 </head>
 
 <body>
+    <aside class="sidebar">
+        <div>
+            <div class="sidebar-header">
+                <div class="logo-placeholder">
+                    <img src="{{ url_for('static', filename='IMAGES/finfigo.jpg') }}" alt="Finfigo Logo">
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="#" class="nav-link active" data-page="dashboard">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="history">
+                            <i class="fas fa-history"></i>
+                            <span>History</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/details" class="nav-link">
+                            <i class="fas fa-file-alt"></i>
+                            <span>File Tax</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="product-gst">
+                            <i class="fas fa-box-open"></i>
+                            <span>Product GST</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" class="nav-link" data-page="rules">
+                            <i class="fas fa-gavel"></i>
+                            <span>Rules</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="logout-section">
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="/logout" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </aside>
+
     <main class="main-content">
         <section id="dashboard-content" class="page-content">
             <h1>Financial Overview</h1>

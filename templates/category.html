@@ -11,9 +11,8 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            height: 100vh;
             margin: 0;
-            padding: 20px;
         }
         .container {
             background: white;
@@ -21,19 +20,15 @@
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             text-align: center;
-            width: 100%;
-            max-width: 600px;
         }
         h1 {
             margin-bottom: 30px;
             color: #333;
-            font-size: 2rem;
         }
         .options {
             display: flex;
             gap: 20px;
             justify-content: center;
-            flex-wrap: wrap;
         }
         .option {
             padding: 20px;
@@ -42,14 +37,10 @@
             cursor: pointer;
             transition: all 0.3s;
             width: 200px;
-            min-width: 180px;
-            flex: 1;
         }
         .option:hover {
             border-color: #007bff;
             background-color: #f8f9fa;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0,123,255,0.15);
         }
         .option i {
             font-size: 48px;
@@ -59,90 +50,6 @@
         .option h3 {
             margin: 0;
             color: #333;
-            font-size: 1.2rem;
-        }
-        
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            body {
-                padding: 15px;
-            }
-            
-            .container {
-                padding: 30px 20px;
-            }
-            
-            h1 {
-                font-size: 1.6rem;
-                margin-bottom: 25px;
-            }
-            
-            .options {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .option {
-                width: 100%;
-                padding: 25px;
-            }
-            
-            .option i {
-                font-size: 40px;
-            }
-            
-            .option h3 {
-                font-size: 1.1rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            body {
-                padding: 10px;
-            }
-            
-            .container {
-                padding: 25px 15px;
-            }
-            
-            h1 {
-                font-size: 1.4rem;
-                margin-bottom: 20px;
-            }
-            
-            .option {
-                padding: 20px;
-            }
-            
-            .option i {
-                font-size: 36px;
-            }
-            
-            .option h3 {
-                font-size: 1rem;
-            }
-        }
-        
-        @media (max-width: 320px) {
-            .container {
-                padding: 20px 10px;
-            }
-            
-            h1 {
-                font-size: 1.2rem;
-            }
-            
-            .option {
-                padding: 15px;
-            }
-            
-            .option i {
-                font-size: 32px;
-            }
-            
-            .option h3 {
-                font-size: 0.9rem;
-            }
         }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
