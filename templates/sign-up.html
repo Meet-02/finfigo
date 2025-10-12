@@ -8,54 +8,10 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
     />
     <link rel="stylesheet" href="{{ url_for('static', filename='sign-up.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}">
     <title>Login Page | Caged coder</title>
   </head>
 
   <body>
-    <!-- Mobile Menu Button -->
-    <button id="mobile-menu-btn" class="mobile-menu-btn">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Sidebar Overlay -->
-    <div id="sidebar-overlay" class="sidebar-overlay"></div>
-
-    <!-- Sidebar Navigation -->
-    <aside id="sidebar" class="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <img src="{{ url_for('static', filename='IMAGES/Untitled__2_-removebg-preview.png') }}" alt="Logo">
-                <span>FinFigo</span>
-            </div>
-            <button id="sidebar-close" class="sidebar-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <nav class="sidebar-nav">
-            <ul class="nav-list">
-                <li class="nav-item">
-                    <a href="/" class="nav-link">
-                        <i class="fas fa-home"></i>
-                        <span>Home</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/signup" class="nav-link active">
-                        <i class="fas fa-user-plus"></i>
-                        <span>Sign Up</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/signup" class="nav-link">
-                        <i class="fas fa-sign-in-alt"></i>
-                        <span>Login</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </aside>
-
     <div class="container" id="container">
       <div class="form-container sign-up">
         <form action="/signup" method="POST">
@@ -103,6 +59,5 @@
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
-    <script src="{{ url_for('static', filename='sidebar.js') }}"></script>
   </body>
 </html>

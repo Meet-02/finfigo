@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - ITR & GST</title>
     <link rel="stylesheet" href="/static/dash_job.css" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='sidebar.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
         rel="stylesheet">
@@ -14,67 +13,6 @@
 </head>
 
 <body>
-    <!-- Mobile Menu Button -->
-    <button id="mobile-menu-btn" class="mobile-menu-btn">
-        <i class="fas fa-bars"></i>
-    </button>
-
-    <!-- Sidebar Overlay -->
-    <div id="sidebar-overlay" class="sidebar-overlay"></div>
-
-    <!-- Sidebar Navigation -->
-    <aside id="sidebar" class="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo">
-                <img src="{{ url_for('static', filename='IMAGES/finfigo.jpg') }}" alt="Finfigo Logo">
-                <span>FinFigo</span>
-            </div>
-            <button id="sidebar-close" class="sidebar-close">
-                <i class="fas fa-times"></i>
-            </button>
-        </div>
-        <nav class="sidebar-nav">
-            <ul class="nav-list">
-                <li class="nav-item">
-                    <a href="#" class="nav-link active" data-page="dashboard">
-                        <i class="fas fa-tachometer-alt"></i>
-                        <span>Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link" data-page="history">
-                        <i class="fas fa-history"></i>
-                        <span>History</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/details" class="nav-link">
-                        <i class="fas fa-file-alt"></i>
-                        <span>File Tax</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link" data-page="product-gst">
-                        <i class="fas fa-box-open"></i>
-                        <span>Product GST</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#" class="nav-link" data-page="rules">
-                        <i class="fas fa-gavel"></i>
-                        <span>Rules</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/logout" class="nav-link">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </aside>
-
     <main class="main-content">
         <section id="dashboard-content" class="page-content">
             <h1>Dashboard</h1>
@@ -237,6 +175,5 @@
         </section>
     </main>
     <script src="/static/dash_job.js"></script>
-    <script src="{{ url_for('static', filename='sidebar.js') }}"></script>
 </body>
 </html>
