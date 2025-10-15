@@ -15,14 +15,11 @@ def create_tax_report(data):
     story = []
     styles = getSampleStyleSheet()
 
-    # --- Custom Styles ---
     title_style = ParagraphStyle('title_style', parent=styles['Heading1'], alignment=TA_CENTER, fontSize=18, spaceAfter=20)
     section_style = ParagraphStyle('section_style', parent=styles['Heading2'], textColor=colors.HexColor("#003366"), fontSize=14, spaceAfter=10)
-    # Corrected style to be used in the final summary for bold, red text
     bold_value_style = ParagraphStyle('bold_value_style', parent=styles['Normal'], fontSize=12, textColor=colors.red, leading=16, fontName='Helvetica-Bold')
     normal_style = styles['Normal']
 
-    # --- Title ---
     story.append(Paragraph("GST & Tax Liability Report", title_style))
     story.append(Spacer(1, 12))
 
@@ -89,7 +86,6 @@ def create_tax_report(data):
     ]))
     story.append(expense_table)
 
-    # --- Page Break for Final Summary ---
     story.append(PageBreak())
 
     # --- Section 4: Final GST & Tax Summary ---

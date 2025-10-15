@@ -89,7 +89,7 @@ def get_gst_connection():
     if conn is None:
         raise ConnectionError("Failed to establish TiDB connection to GST DB.")
     
-    conn.autocommit = False # Assuming you want transaction control for safety
+    conn.autocommit = False 
     
     try:
         cursor = conn.cursor(buffered=True)
@@ -131,30 +131,21 @@ def get_connection(autocommit=False):
 
 
 
-# NOTE: Removed execute_schema_change wrapper function to simplify DDL execution.
 
 def init_db():
     """Connects to TiDB Cloud and creates the necessary tables."""
     try:
-        # We use autocommit=False to force an explicit commit at the end, guaranteeing DDL execution.
         with get_connection(autocommit=False) as conn:
-            # Use a standard, non-buffered cursor for initialization DDL, which allows us to control fetchall().
-            # NOTE: We use conn.cursor() here instead of conn.cursor(buffered=True) for fine-grained control.
             cursor = conn.cursor() 
             print(f"Successfully connected to TiDB Cloud and set target DB: {TIDB_NAME}.")
 
-            # --- DDL Execution Helper ---
             def execute_ddl(cur, statement):
                 cur.execute(statement)
                 try:
-                    # Crucial: DDL statements often yield a result set that must be fetched.
                     cur.fetchall() 
                 except Exception:
                     pass
-            # ---------------------------
 
-            # --- Drop Tables ---
-# --- Drop Tables (in dependency-safe order) ---
             execute_ddl(cursor, "DROP TABLE IF EXISTS tax_results_job;")
             execute_ddl(cursor, "DROP TABLE IF EXISTS tax_results_business;")
             execute_ddl(cursor, "DROP TABLE IF EXISTS job_deductions;")
@@ -322,7 +313,6 @@ def init_db():
 
             )''')
 
-            # The context manager will call conn.commit() when exiting the 'with' block.
             print("All tables created/recreated successfully.")
 
     except ConnectionError:

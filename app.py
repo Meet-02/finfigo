@@ -38,9 +38,7 @@ def get_float(key):
     except (ValueError, TypeError):
         return 0.0
 
-# ===================================================================
 # --- General and User Management Routes ---
-# ===================================================================
 @app.route('/')
 def landing():
     return render_template('landingpage.html')
@@ -144,9 +142,9 @@ def details():
                 cur.execute("INSERT IGNORE INTO people_info (name, fathers_guardian_name, date_of_birth, gender, email, aadhar_number, mobile_number) VALUES (%s, %s, %s, %s, %s, %s, %s)",
                                (request.form.get('name'), request.form.get('father'), request.form.get('dob'), request.form.get('gender'), request.form.get('email'), request.form.get('aadhar'), request.form.get('mno')))
                 try:
-                    cur.fetchall() # Only call if there are results (for DDL statements that might return info)
+                    cur.fetchall() 
                 except mysql.connector.InterfaceError:
-                    pass # No result set to fetch
+                    pass 
                 
                 cur.execute("SELECT id FROM people_info WHERE aadhar_number = %s", (request.form.get('aadhar'),))
                 person = cur.fetchone()
@@ -179,7 +177,6 @@ def details():
                     return redirect(url_for("business_details"))
 
                 elif category == "job":
-                    # Delete tax results first due to foreign key constraints
                     cur.execute("DELETE FROM tax_results_business WHERE person_id = %s", (person_id,))
                     try:
                         cur.fetchall()
@@ -204,9 +201,7 @@ def details():
 
     return render_template('comm_det.html')
 
-# ===================================================================
 # --- Business User Workflow ---
-# ===================================================================
 @app.route('/business/details', methods=['GET', 'POST'])
 def business_details():
     if request.method == 'POST':
@@ -221,14 +216,11 @@ def business_details():
             'gst_rate_sell': get_float('sell-gst'), 'type_of_supply_sell': request.form.get('tos-s')
         }
 
-        # Store in session
         session['business_income'] = business_income
         session['business_details'] = business_details
 
-        # Insert into database
         with get_connection(autocommit=True) as conn:
             with conn.cursor(buffered=True) as cur:
-                # Insert business details
                 cur.execute('''INSERT INTO business_details
                     (business_id, business_name, product_name, purchase_value, gst_rate_purchase,
                      type_of_supply_purchase, sell_value, gst_rate_sell, type_of_supply_sell)
@@ -242,7 +234,6 @@ def business_details():
                 except mysql.connector.InterfaceError:
                     pass
 
-                # Insert income details
                 cur.execute('''INSERT INTO income_details
                     (business_id, gross_income, other_income, Total_revenue)
                     VALUES (%s, %s, %s, %s)''',
@@ -358,9 +349,7 @@ def business_result():
         insights=insights
     )
 
-# ===================================================================
 # --- Job User Workflow ---
-# ===================================================================
 @app.route('/job/details', methods=['GET', 'POST'])
 def job_details():
     if request.method == 'POST':
@@ -370,13 +359,10 @@ def job_details():
             'fd_interest': get_float('fd_interest'), 'other_income': get_float('other_income')
         }
 
-        # Store in session
         session['job_income'] = job_income
 
-        # Insert into database
         with get_connection(autocommit=True) as conn:
             with conn.cursor(buffered=True) as cur:
-                # Insert job details
                 cur.execute('''INSERT INTO job_details
                     (person_id, financial_year, basic_salary, hra_received, interest_savings, interest_fd, other_income)
                     VALUES (%s, %s, %s, %s, %s, %s, %s)''',
@@ -403,13 +389,10 @@ def job_deductions():
             'donations': get_float('donations'), 'tds': get_float('tds')
         }
 
-        # Store in session
         session['job_deductions'] = job_deductions
 
-        # Insert into database
         with get_connection(autocommit=True) as conn:
             with conn.cursor(buffered=True) as cur:
-                # Insert job deductions
                 cur.execute('''INSERT INTO job_deductions
                     (person_id, section_80c_epf_ppf, section_80c_life_insurance, section_80c_elss_mutual_funds,
                      section_80c_home_loan_principal, section_80c_childrens_tuition, section_80c_other_investments,
@@ -435,7 +418,6 @@ def job_deductions():
 
         insights = "AI insights available on results page."
 
-        # Insert result
         with get_connection(autocommit=True) as conn:
             with conn.cursor(buffered=True) as cur:
                 cur.execute('''
@@ -450,7 +432,6 @@ def job_deductions():
                 except mysql.connector.InterfaceError:
                     pass
 
-        # Store results in session for display
         session['job_results'] = {
             'tax': final_tax_due,
             'net_income': taxable_income,
@@ -492,9 +473,7 @@ def job_result():
         insights=insights
     )
 
-# ===================================================================
 # --- Dashboard Routes (Corrected) ---
-# ===================================================================
 @app.route('/dashboard/business')
 def dashboard_business():
     if 'pan_id' not in session:
@@ -516,15 +495,12 @@ def dashboard_business():
 
     history_for_template = history
     
-    # FIX: Convert datetime objects to date strings for display and aggregation
     for row in history_for_template:
         if isinstance(row['created_at'], datetime.datetime):
-            # Create a new field for the formatted date string
             row['created_at_display'] = row['created_at'].strftime('%Y-%m-%d')
         else:
-             row['created_at_display'] = str(row['created_at']).split(' ')[0] # Fallback for safety
+             row['created_at_display'] = str(row['created_at']).split(' ')[0] 
 
-    # --- Aggregated yearly data (using the datetime object) ---
     from collections import defaultdict
     yearly_data = defaultdict(lambda: {'gross_income': [], 'gst_payable': [], 'final_tax_payable': []})
     for row in history_for_template:
@@ -584,12 +560,11 @@ def dashboard_job():
 
     history_for_template = history
     
-    # FIX: Convert datetime objects in 'created_at' to date strings
     for row in history_for_template:
         if isinstance(row['created_at'], datetime.datetime):
             row['created_at_display'] = row['created_at'].strftime('%Y-%m-%d')
         else:
-             row['created_at_display'] = str(row['created_at']).split(' ')[0] # Fallback for safety
+             row['created_at_display'] = str(row['created_at']).split(' ')[0] 
 
     labels = [row['financial_year'] for row in reversed(history_for_template)]
     gross_income_data = [row['gross_income'] for row in reversed(history_for_template)]
@@ -607,9 +582,7 @@ def dashboard_job():
         net_income_data=net_income_data
     )
 
-# ===================================================================
 # --- PDF Download Routes ---
-# ===================================================================
 @app.route('/download-business-report')
 def download_business_report():
     required_keys = ['person_id', 'business_income', 'business_details', 'business_expenses', 'finance_deduction']
@@ -617,7 +590,6 @@ def download_business_report():
         flash("Session expired. Please fill out business forms again to download.")
         return redirect(url_for('business_details'))
 
-    # Gather data from session
     bus_income = session.get('business_income', {})
     bus_details = session.get('business_details', {})
     bus_expenses = session.get('business_expenses', {})
@@ -630,8 +602,8 @@ def download_business_report():
             personal = {
                 'name': person[1] if person else 'N/A',
                 'email': person[4] if person else 'N/A',
-                'phone': person[6] if person else 'N/A',  # Changed from mobile_number to phone to match PDF template
-                'age': 'N/A'  # Not stored, placeholder
+                'phone': person[6] if person else 'N/A', 
+                'age': 'N/A'  
             }
 
     # Prepare data for PDF
@@ -668,7 +640,6 @@ def download_business_report():
         }
     }
 
-    # Calculate tax values if not available in session (user might download PDF without going through result page)
     if not session.get('net_taxable_income') or not session.get('final_tax_payable'):
         gross_revenue = bus_income.get('total_income', 0)
         total_expenses = sum(bus_expenses.values())
@@ -723,17 +694,15 @@ def download_job_report():
         },
         'summary': {
             'gross_income': gross_income,
-            'standard_deduction': 50000,  # Assuming standard deduction
+            'standard_deduction': 50000, 
             'taxable_income': taxable_income,
             'total_tax': final_tax_due,
             'tds': tds,
             'final_tax_due': final_tax_due,
         }
     }
-    # Generate PDF
     buffer = create_job_report(data)
 
-    # Return PDF
     return send_file(buffer, as_attachment=True, download_name='job_tax_report.pdf', mimetype='application/pdf')
 
 
@@ -742,10 +711,8 @@ def gst_rates():
     search_term = request.args.get('data')
 
     if not search_term:
-        # If no search term is provided, fetch everything (or 
         return jsonify({'error': 'Please enter a product or category to search.'}), 400 
 
-    # Prepare search term for SQL LIKE operation: "%term%"
     sql_search_term = '%' + search_term.strip() + '%'
     
     try:

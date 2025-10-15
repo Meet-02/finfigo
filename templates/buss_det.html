@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='pg2.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
-        /* --- STEPPER STYLES --- */
         .page-container {
             display: flex;
             flex-direction: column;
@@ -114,7 +113,6 @@
             }
         }
 
-        /* --- END STEPPER STYLES --- */
     </style>
 </head>
 
@@ -227,7 +225,6 @@
     <script src="{{ url_for('static', filename='pg1.js') }}"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Stepper progress
             const activeStep = document.querySelector('.step.active');
             if (activeStep) {
                 const stepNumber = parseInt(activeStep.getAttribute('data-step'));
@@ -238,7 +235,6 @@
                 }
             }
 
-            // Calculate total revenue
             const grIn = document.getElementById('gr-in');
             const othIn = document.getElementById('oth-in');
             const totalRev = document.getElementById('total-revenue');

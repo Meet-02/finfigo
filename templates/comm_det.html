@@ -73,7 +73,6 @@
 
 <body>
 
-    <!-- Fixed Header -->
     <header id="header">
         <div class="logo-area">
             <img src="{{ url_for('static', filename='IMAGES/finfo.png') }}" alt="Header Photo"
@@ -82,7 +81,6 @@
         </div>
     </header>
 
-    <!-- Page Background Banner -->
     <div class="banner">
         <h1><i class="fa-solid fa-file-invoice-dollar"></i> Easy GST & ITR Filing</h1>
         <p>Fill in your details to get started with a smooth and hassle-free process.</p>
@@ -98,13 +96,11 @@
         <div class="step" data-step="4">4</div>
     </div>
 
-    <!-- Main Form -->
     <div class="outer-container">
         <div class="content-container">
             <div class="form-section">
                 <h1><i class="fa-solid fa-user"></i> User Details</h1>
 
-                <!-- ✅ FORM START -->
                 <form action="{{ url_for('details') }}" method="POST">
 
                     <label class="field-label" for="name"><i class="fa-solid fa-id-badge"></i> Name <span
@@ -199,16 +195,11 @@
                         </button>
                     </div>
                 </form>
-                <!-- ✅ FORM END -->
 
             </div>
         </div>
     </div>
     <script>
-        // Only include specific JavaScript functions needed for this page
-        // Remove the section hiding logic that's in pg1.js
-        
-        // Keep only the necessary functions like the header scroll behavior
         const header = document.getElementById('header');
         const formSection = document.querySelector('.form-section');
     
