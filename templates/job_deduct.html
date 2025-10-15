@@ -9,6 +9,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         /* --- STEPPER STYLES --- */
+        .page-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
         .stepper {
             position: relative;
             display: flex;
@@ -16,8 +23,7 @@
             align-items: center;
             width: 100%;
             max-width: 550px;
-            margin: 0 auto 25px auto;
-            top: 25px;
+            margin-bottom: 25px;
         }
 
         .stepper::before {
@@ -38,7 +44,7 @@
             left: 0;
             height: 4px;
             background-color: #28a745;
-            width: 0;
+            width: 100%;
             transform: translateY(-50%);
             z-index: 1;
         }
@@ -54,7 +60,6 @@
             align-items: center;
             justify-content: center;
             z-index: 2;
-            transition: all 0.3s ease;
         }
 
         .step.completed {
@@ -66,6 +71,49 @@
             background-color: #0d6efd;
             color: white;
         }
+
+        .tax-card {
+            background-color: #ffffff;
+            border-radius: 8px;
+            border: 1px solid #dce8f6;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            width: 100%;
+            max-width: 550px;
+            padding: 30px 40px;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .tax-card {
+                padding: 20px 25px;
+                max-width: 500px;
+            }
+            .stepper {
+                max-width: 90%;
+            }
+            .step {
+                width: 28px;
+                height: 28px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tax-card {
+                padding: 15px 20px;
+                max-width: 100%;
+            }
+            .stepper {
+                max-width: 95%;
+                margin-bottom: 20px;
+            }
+            .step {
+                width: 25px;
+                height: 25px;
+                font-size: 0.7rem;
+            }
+        }
+
         /* --- END STEPPER STYLES --- */
     </style>
 </head>
@@ -83,18 +131,21 @@
         <h1><i class="fa-solid fa-file-invoice-dollar"></i> Easy GST & ITR Filing</h1>
         <p>Fill in your details to get started with a smooth and hassle-free process.</p>
     </div>
-    <div class="stepper">
-        <div class="stepper-progress"></div>
-        <div class="step completed" data-step="1">1</div>
-        <div class="step completed" data-step="2">2</div>
-        <div class="step active" data-step="3">3</div>
-        <div class="step" data-step="4">4</div>
+    <div class="page-container">
+        <div class="stepper">
+            <div class="stepper-progress"></div>
+            <div class="step completed" data-step="1">1</div>
+            <div class="step completed" data-step="2">2</div>
+            <div class="step active" data-step="3">3</div>
+            <div class="step" data-step="4">4</div>
+        </div>
     </div>
 
 
     <div class="outer-container">
         <div class="content-container">
-            <div class="form-section">
+            <div class="tax-card">
+                <div class="form-section">
 
                 <form action="{{ url_for('job_deductions') }}" method="POST">
 
@@ -164,6 +215,7 @@
                     </div>
 
                 </form>
+                </div>
             </div>
         </div>
     </div>
