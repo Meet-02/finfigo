@@ -245,17 +245,13 @@ button:focus:not(:focus-visible) {
     outline: none;
 }
 
-/* Base styles for the button */
 .next-button {
-    /* Font and Text */
     font-family: Arial, sans-serif;
     font-size: 16px;
     font-weight: bold;
     color: white;
 
-    /* Background and Shape */
     background-color: #007bff;
-    /* A nice, standard blue */
     border: none;
     border-radius: 8px;
     padding: 12px 24px;
@@ -265,35 +261,24 @@ button:focus:not(:focus-visible) {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 
-    /* Icon and Text Alignment */
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    /* Space between "Next" and the arrow */
 }
 
-/* Hover effect for when the mouse is over the button */
 .next-button:hover {
     background-color: #0056b3;
-    /* Darker blue on hover */
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
     transform: translateY(-2px);
-    /* Makes the button lift slightly */
 }
 
-/* Active effect for when the button is being clicked */
 .next-button:active {
     background-color: #004494;
-    /* Even darker blue when clicked */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transform: translateY(0);
-    /* Resets the lift effect */
 }
 
-/* stepper progress */
 
-
-/* Responsive styles for screens smaller than 768px */
 @media (max-width: 768px) {
     #header {
         padding: 0.6rem 1.5rem;
@@ -326,7 +311,6 @@ button:focus:not(:focus-visible) {
     }
 }
 
-/* Responsive styles for screens smaller than 480px */
 @media (max-width: 480px) {
     #header {
         padding: 0.5rem 1rem;
@@ -393,7 +377,7 @@ button:focus:not(:focus-visible) {
 }
 
 .submit-button {
-    background-color: #0d6efd; /* A modern blue */
+    background-color: #0d6efd; 
     color: white;
     border: none;
     padding: 12px 30px;
@@ -405,9 +389,9 @@ button:focus:not(:focus-visible) {
 }
 
 .submit-button:hover {
-    background-color: #0b5ed7; /* A darker blue for hover */
+    background-color: #0b5ed7; 
 }
 
 .submit-button:active {
-    transform: scale(0.98); /* Slight shrink effect on click */
+    transform: scale(0.98);
 }

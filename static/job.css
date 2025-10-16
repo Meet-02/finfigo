@@ -252,29 +252,25 @@ button {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 
-    /* Icon and Text Alignment */
     display: inline-flex;
     align-items: center;
-    gap: 8px; /* Space between "Next" and the arrow */
+    gap: 8px; 
 }
 
-/* Hover effect for when the mouse is over the button */
 .next-button:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #0056b3; 
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px); /* Makes the button lift slightly */
+    transform: translateY(-2px); 
 }
 
-/* Active effect for when the button is being clicked */
 .next-button:active {
-    background-color: #004494; /* Even darker blue when clicked */
+    background-color: #004494;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transform: translateY(0); /* Resets the lift effect */
+    transform: translateY(0); 
 }
 
 
 
-/* Responsive styles for screens smaller than 768px */
 @media (max-width: 768px) {
     #header {
         padding: 0.6rem 1.5rem;
@@ -307,7 +303,6 @@ button {
     }
 }
 
-/* Responsive styles for screens smaller than 480px */
 @media (max-width: 480px) {
     #header {
         padding: 0.5rem 1rem;

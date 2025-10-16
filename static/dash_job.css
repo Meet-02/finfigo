@@ -285,13 +285,10 @@ body {
 }
 
 
-/* --- Responsive Media Queries --- */
 @media (max-width: 768px) {
 
-    /* Sidebar visible with text and slide animation */
     .sidebar {
         width: 260px;
-        /* same as desktop */
         padding: 20px;
         position: fixed;
         top: 0;
@@ -328,7 +325,6 @@ body {
         max-width: 50px;
     }
 
-    /* Overlay for background dimming */
     .sidebar-overlay {
         display: none;
         position: fixed;
@@ -347,7 +343,6 @@ body {
         opacity: 1;
     }
 
-    /* Main content and charts */
     .main-content {
         padding: 20px;
         margin-left: 0 !important;
@@ -367,17 +362,14 @@ body {
         gap: 20px;
     }
 
-    /* History table responsive */
     .table-container {
         overflow-x: auto;
     }
 }
 
-/* Phones and extra-small devices */
 @media (max-width: 480px) {
     .sidebar {
         width: 260px;
-        /* keep full width for readable text */
         padding: 15px;
     }
 
@@ -453,7 +445,6 @@ body {
 
 
 
-/* Overlay for background dimming */
 .sidebar-overlay {
     display: none;
     position: fixed;
@@ -492,18 +483,15 @@ body {
         left: 0;
     }
 
-    /* main content adjusts when sidebar open */
     .main-content {
         margin-left: 0 !important;
         transition: filter 0.3s ease-in-out;
     }
 
-    /* Slight dim effect on content when sidebar open */
     body.sidebar-open .main-content {
         filter: blur(1px) brightness(0.9);
     }
 
-    /* Adjust top button */
     .mobile-menu-btn {
         position: fixed;
         top: 15px;
@@ -523,7 +511,6 @@ body {
     }
 }
 
-/* Prevent scroll when sidebar open */
 body.sidebar-open {
     overflow: hidden;
 }

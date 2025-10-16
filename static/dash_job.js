@@ -12,7 +12,6 @@ document.addEventListener("DOMContentLoaded", function() {
         navLinks.forEach(navLink => navLink.classList.remove('active'));
         this.classList.add('active');
 
-        // Logic to show the corresponding content section
         pageContents.forEach(content => {
             content.style.display = (content.id === pageId + '-content') ? 'block' : 'none';
         });
@@ -22,7 +21,6 @@ document.addEventListener("DOMContentLoaded", function() {
         link.addEventListener('click', handleLinkClick);
     });
 
-    // --- 2. Dynamic Search for Product GST Page (Corrected Fetch Logic) ---
     const searchInput = document.getElementById('product-search');
     const gstInfoContainer = document.querySelector('.gst-info-container'); 
     const noResultsMessage = document.getElementById('no-results-message');
@@ -30,7 +28,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     if (searchInput) {
         
-        // Initial setup: Clear the static GST slab cards if they were hardcoded
         if (gstInfoContainer) {
             gstInfoContainer.innerHTML = ''; 
         }
@@ -40,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function() {
          * @param {string} searchTerm - The product name or chapter heading to search.
          */
         async function fetchGstRates(searchTerm) {
-            // Only fetch if the term is long enough (e.g., 2 characters or more)
             if (searchTerm.length < 2) {
                 if (gstInfoContainer) gstInfoContainer.innerHTML = '';
                 noResultsMessage.style.display = 'none';
@@ -73,7 +69,6 @@ document.addEventListener("DOMContentLoaded", function() {
                         if (gstInfoContainer) gstInfoContainer.appendChild(card);
                     });
                 } else {
-                     // Handle general API/Database errors (status 500)
                     noResultsMessage.textContent = `Error fetching data: ${data.details || data.error}`;
                     noResultsMessage.style.display = 'block';
                 }
@@ -84,7 +79,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         }
 
-        // Function to manage the search bar input and button visibility
         function handleInput() {
             const searchTerm = searchInput.value.trim();
 
@@ -96,32 +90,27 @@ document.addEventListener("DOMContentLoaded", function() {
                 noResultsMessage.style.display = 'none';
             }
             
-            // Execute the API call
             fetchGstRates(searchTerm);
         }
         
-        // Event listener for user typing (Input event triggers the search)
         searchInput.addEventListener('input', handleInput);
 
-        // Event listener for the clear button
         if (clearSearchBtn) {
             clearSearchBtn.addEventListener('click', function() {
-                searchInput.value = ''; // Clear the input field
-                handleInput(); // Rerun the logic to reset the view
+                searchInput.value = ''; 
+                handleInput(); 
                 searchInput.focus();
             });
         }
     }
     
-    // --- 3. Chart Initialization Logic (Existing Code) ---
-    if (typeof Chart !== 'undefined') { // Check if Chart.js is loaded
+    if (typeof Chart !== 'undefined') { 
         const calculationLabels = JSON.parse('{{ labels | tojson }}');
         const grossIncomeData = JSON.parse('{{ gross_income_data | tojson }}');
         const taxData = JSON.parse('{{ tax_data | tojson }}');
         const netIncomeData = JSON.parse('{{ net_income_data | tojson }}');
         
-        // Note: The template variables (e.g., {{ labels | tojson }}) assume this JS is rendered
-        // via a Flask/Jinja2 template. I've left the placeholder syntax as provided.
+
 
         try {
             const revenueCtx = document.getElementById('revenuePieChart').getContext('2d');

@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const businessSection = document.getElementById('infobusiness');
     const jobSection = document.getElementById('infojob');
 
-    // Hide both sections initially
     businessSection.style.display = 'none';
     jobSection.style.display = 'none';
 
@@ -20,7 +19,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
-// Header scroll behavior
 const header = document.getElementById('header');
 const formSection = document.querySelector('.form-section');
 
@@ -29,11 +27,9 @@ window.addEventListener('scroll', () => {
     const headerHeight = header.offsetHeight;
 
     if (window.scrollY >= formTop - headerHeight - 10) {
-        // Stop the header just above the form
         header.style.position = 'absolute';
         header.style.top = (formTop - headerHeight - 10) + 'px';
     } else {
-        // Keep it fixed while scrolling up
         header.style.position = 'fixed';
         header.style.top = '10px';
     }
@@ -52,12 +48,10 @@ function nextStep(current) {
         }
     });
 
-    if (!allFilled) return; // Stop if not filled
+    if (!allFilled) return; 
 
-    // Mark step completed
     document.querySelector(`.step[data-step="${current}"]`).classList.add("completed");
 
-    // Hide current, show next
     document.getElementById(`step-${current}`).classList.add("hidden");
     const next = current + 1;
     if (document.getElementById(`step-${next}`)) {
@@ -73,11 +67,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     sec80cInput.addEventListener("blur", () => {
-        note.style.display = "none"; // hide note when focus is lost
+        note.style.display = "none"; 
     });
 });
 
-// Add this JavaScript to make the calculation work
 
 document.addEventListener('DOMContentLoaded', function() {
     // 1. Get the input fields
@@ -85,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const otherIncomeInput = document.getElementById('oth-in');
     const totalRevenueInput = document.getElementById('total-revenue');
 
-    // 2. Create a function to update the total
     function updateTotalRevenue() {
         const grossIncome = parseFloat(grossIncomeInput.value) || 0;
         const otherIncome = parseFloat(otherIncomeInput.value) || 0;
@@ -95,7 +87,6 @@ document.addEventListener('DOMContentLoaded', function() {
         totalRevenueInput.value = total;
     }
 
-    // 3. Add event listeners to the input fields
     grossIncomeInput.addEventListener('input', updateTotalRevenue);
     otherIncomeInput.addEventListener('input', updateTotalRevenue);
 });

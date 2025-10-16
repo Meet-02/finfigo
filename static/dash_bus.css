@@ -62,7 +62,6 @@
     border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-/* --- Main Content Area --- */
 .main-content {
     flex-grow: 1;
     padding: 40px;
@@ -90,7 +89,6 @@
     margin-bottom: 30px;
 }
 
-/* --- Chart Styles (Dashboard Page) --- */
 .charts-container {
     display: flex;
     gap: 30px;
@@ -117,7 +115,7 @@
     height: 100% !important;
 }
 
-/* --- Table Styles (History & Rules Pages) --- */
+
 .history-section h3 {
     color: var(--text-color);
     margin-bottom: 20px;
@@ -172,10 +170,7 @@
     font-size: 16px;
 }
 
-/* --- Product GST Page Styles --- */
-/* --- Product GST Page Styles --- */
 
-/* Make sure the container is relative for positioning child elements */
 .search-container {
     position: relative;
     margin-bottom: 30px;
@@ -189,31 +184,24 @@
     transform: translateY(-50%);
     color: #999;
     z-index: 2;
-    /* Ensure it's above the input field background */
 }
 
-/* The search input field - MODIFIED */
 #product-search {
     width: 100%;
     padding: 12px 45px;
-    /* Increased right padding for the clear button */
     border: 1px solid var(--light-border);
     border-radius: 8px;
     font-size: 16px;
     transition: all 0.3s ease;
-    /* Smooth transition for focus */
     -webkit-appearance: none;
-    /* Removes default browser styling on mobile */
 }
 
-/* Enhanced focus state */
 #product-search:focus {
     outline: none;
     border-color: var(--accent-blue);
     box-shadow: 0 4px 12px rgba(0, 123, 255, 0.15);
 }
 
-/* NEW: Clear search button 'x' */
 .clear-search-btn {
     position: absolute;
     right: 15px;
@@ -225,12 +213,9 @@
     cursor: pointer;
     transition: all 0.2s ease;
     opacity: 0;
-    /* Hidden by default */
     pointer-events: none;
-    /* Not clickable when hidden */
 }
 
-/* Style for when the clear button is visible */
 .clear-search-btn.visible {
     opacity: 1;
     pointer-events: auto;
@@ -240,7 +225,6 @@
     color: var(--text-color);
 }
 
-/* NEW: Style for the "no results" message */
 #no-results-message {
     text-align: center;
     padding: 40px;
@@ -253,7 +237,6 @@
 }
 
 
-/* --- Your other styles for .gst-info-container, .gst-card, etc. remain the same --- */
 .gst-info-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -266,10 +249,8 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px var(--shadow-color);
     border-left: 5px solid var(--accent-blue);
-    /* No display property here, it will be controlled by JS */
 }
 
-/* ... etc. */
 
 .gst-card:hover {
     transform: translateY(-5px);
@@ -285,17 +266,13 @@
 .gst-card p {
     font-size: 14px;
     margin-bottom: 0;
-    /* Adjusted for no list */
     color: #6c757d;
 }
 
-/* --- Responsive Media Queries --- */
 @media (max-width: 768px) {
 
-    /* Sidebar visible with text and slide animation */
     .sidebar {
         width: 260px;
-        /* same as desktop */
         padding: 20px;
         position: fixed;
         top: 0;
@@ -316,7 +293,6 @@
 
     .nav-link span {
         display: inline;
-        /* always show text */
     }
 
     .nav-link {
@@ -332,7 +308,6 @@
         max-width: 50px;
     }
 
-    /* Overlay for background dimming */
     .sidebar-overlay {
         display: none;
         position: fixed;
@@ -351,7 +326,6 @@
         opacity: 1;
     }
 
-    /* Main content and charts */
     .main-content {
         padding: 20px;
         margin-left: 0 !important;
@@ -371,17 +345,14 @@
         gap: 20px;
     }
 
-    /* History table responsive */
     .table-container {
         overflow-x: auto;
     }
 }
 
-/* Phones and extra-small devices */
 @media (max-width: 480px) {
     .sidebar {
         width: 260px;
-        /* keep full width for readable text */
         padding: 15px;
     }
 
@@ -478,7 +449,6 @@
     font-size: 16px;
 }
 
-/* --- Global Styles & Variables --- */
 :root {
     --sidebar-bg: #2a3a8d;
     --accent-blue: #007bff;
@@ -502,7 +472,6 @@ body {
     min-height: 100vh;
 }
 
-/* ... (Your existing styles for sidebar, main-content, tables, etc.) ... */
 
 .charts-container {
     display: flex;
@@ -521,7 +490,6 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 }
 
-/* --- NEW STYLES FOR PRODUCT GST PAGE --- */
 
 .search-container {
     position: relative;
@@ -612,11 +580,7 @@ body {
     color: #6c757d;
 }
 
-/* ================================================
-   ✅ Responsive Sidebar & Mobile Fix Patch
-   ================================================ */
 
-/* Sidebar overlay for mobile */
 .sidebar-overlay {
     display: none;
     position: fixed;
@@ -630,13 +594,11 @@ body {
     transition: opacity 0.3s ease;
 }
 
-/* Show overlay when sidebar is active */
 .sidebar-overlay.active {
     display: block;
     opacity: 1;
 }
 
-/* Sidebar mobile behavior */
 @media (max-width: 992px) {
     body {
         overflow-x: hidden;
@@ -656,18 +618,15 @@ body {
         left: 0;
     }
 
-    /* main content adjusts when sidebar open */
     .main-content {
         margin-left: 0 !important;
         transition: filter 0.3s ease-in-out;
     }
 
-    /* Slight dim effect on content when sidebar open */
     body.sidebar-open .main-content {
         filter: blur(1px) brightness(0.9);
     }
 
-    /* Adjust top button */
     .mobile-menu-btn {
         position: fixed;
         top: 15px;
@@ -687,9 +646,6 @@ body {
     }
 }
 
-/* Prevent scroll when sidebar open */
 body.sidebar-open {
     overflow: hidden;
 }
-
-/* ... (Your existing media queries) ... */

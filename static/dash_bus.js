@@ -95,7 +95,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         searchInput.addEventListener('input', handleInput);
 
-        // Event listener for the clear button
         if (clearSearchBtn) {
             clearSearchBtn.addEventListener('click', function() {
                 searchInput.value = ''; 
@@ -106,7 +105,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
 });
-// Sidebar mobile toggle
 const mobileBtn = document.getElementById('mobile-menu-btn');
 const sidebar = document.getElementById('sidebar');
 const overlay = document.getElementById('sidebar-overlay');
