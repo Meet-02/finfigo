@@ -4,3 +4,4 @@ python-dotenv
 werkzeug
 google-generativeai
 reportlab
+feedparser 

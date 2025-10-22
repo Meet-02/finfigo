@@ -95,62 +95,62 @@
           document.addEventListener("DOMContentLoaded", function () {
             if (typeof Chart !== 'undefined') {
               const calculationLabels = {{ labels | tojson }};
-              const revenueData = {{ revenue_data | tojson }};
-              const gstData = {{ gst_data | tojson }};
-              const taxData = {{ tax_data | tojson }};
+          const revenueData = {{ revenue_data | tojson }};
+          const gstData = {{ gst_data | tojson }};
+          const taxData = {{ tax_data | tojson }};
 
-              const configs = [
-                {
-                  id: 'annualRevenueChart',
-                  type: 'line',
-                  label: 'Gross Revenue (₹)',
-                  data: revenueData,
-                  color: 'rgba(40,167,69,1)',
-                  bg: 'rgba(40,167,69,0.2)'
+          const configs = [
+            {
+              id: 'annualRevenueChart',
+              type: 'line',
+              label: 'Gross Revenue (₹)',
+              data: revenueData,
+              color: 'rgba(40,167,69,1)',
+              bg: 'rgba(40,167,69,0.2)'
+            },
+            {
+              id: 'monthlyGstChart',
+              type: 'line',
+              label: 'GST Payable (₹)',
+              data: gstData,
+              color: 'rgba(255,193,7,1)',
+              bg: 'rgba(255,193,7,0.2)'
+            },
+            {
+              id: 'taxPayableChart',
+              type: 'bar',
+              label: 'Income Tax Payable (₹)',
+              data: taxData,
+              color: 'rgba(220,53,69,1)',
+              bg: 'rgba(220,53,69,0.6)'
+            }
+          ];
+
+          configs.forEach(cfg => {
+            try {
+              const ctx = document.getElementById(cfg.id).getContext('2d');
+              new Chart(ctx, {
+                type: cfg.type,
+                data: {
+                  labels: calculationLabels,
+                  datasets: [{
+                    label: cfg.label,
+                    data: cfg.data,
+                    borderColor: cfg.color,
+                    backgroundColor: cfg.bg,
+                    fill: true,
+                    tension: 0.1,
+                    borderWidth: 1,
+                    borderRadius: 4
+                  }]
                 },
-                {
-                  id: 'monthlyGstChart',
-                  type: 'line',
-                  label: 'GST Payable (₹)',
-                  data: gstData,
-                  color: 'rgba(255,193,7,1)',
-                  bg: 'rgba(255,193,7,0.2)'
-                },
-                {
-                  id: 'taxPayableChart',
-                  type: 'bar',
-                  label: 'Income Tax Payable (₹)',
-                  data: taxData,
-                  color: 'rgba(220,53,69,1)',
-                  bg: 'rgba(220,53,69,0.6)'
+                options: {
+                  responsive: true,
+                  scales: { y: { beginAtZero: true } }
                 }
-              ];
-
-              configs.forEach(cfg => {
-                try {
-                  const ctx = document.getElementById(cfg.id).getContext('2d');
-                  new Chart(ctx, {
-                    type: cfg.type,
-                    data: {
-                      labels: calculationLabels,
-                      datasets: [{
-                        label: cfg.label,
-                        data: cfg.data,
-                        borderColor: cfg.color,
-                        backgroundColor: cfg.bg,
-                        fill: true,
-                        tension: 0.1,
-                        borderWidth: 1,
-                        borderRadius: 4
-                      }]
-                    },
-                    options: {
-                      responsive: true,
-                      scales: { y: { beginAtZero: true } }
-                    }
-                  });
-                } catch (e) { console.error("Chart error:", e); }
               });
+            } catch (e) { console.error("Chart error:", e); }
+          });
             }
           });
         </script>
@@ -161,11 +161,38 @@
       </div>
     </section>
 
+    <div class="news-section mt-5">
+      <h2><i class="fas fa-newspaper"></i> Latest Business & Tax News</h2>
+      
+      {% if articles %}
+        {% for article in articles %}
+        <div class="news-article mb-4 p-3 border rounded shadow-sm">
+          <h4 class="news-title mb-2">
+            <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-primary fw-bold">
+              {{ article.title }}
+            </a>
+          </h4>
+          {% if article.summary %}
+          <p class="news-summary text-muted">{{ article.summary }}</p>
+          {% endif %}
+          <small class="text-secondary d-block">
+            <i class="fas fa-clock"></i> {{ article.published }} |
+            <i class="fas fa-globe"></i> {{ article.source }}
+          </small>
+        </div>
+        {% endfor %}
+      {% else %}
+        <p class="text-muted">Could not load financial news at this time. Please try again later.</p>
+      {% endif %}
+    </div>
+    
+
     <!-- History -->
     <section id="history-content" class="page-content" style="display:none;">
       <h1>Filing History</h1>
       <div class="history-section">
-        <h3><i class="fa-solid fa-clock-rotate-left"></i> Business Calculation History (Total: {{ history|length if history else 0 }})
+        <h3><i class="fa-solid fa-clock-rotate-left"></i> Business Calculation History (Total: {{ history|length if
+          history else 0 }})
         </h3>
         {% if history %}
         <div class="table-responsive table-container">
@@ -247,8 +274,10 @@
             </tr>
             <tr>
               <td>Tax Slabs (Income for Individuals < 60)</td>
-              <td>Up to ₹2,50,000: Nil<br>₹2,50,001 to ₹5,00,000: 5%<br>₹5,00,001 to ₹10,00,000: 20%<br>Above ₹10,00,000: 30%</td>
-              <td>Up to ₹4,00,000: Nil<br>₹4,00,001 to ₹8,00,000: 5%<br>₹8,00,001 to ₹12,00,000: 10%<br>₹12,00,001 to ₹16,00,000: 15%<br>₹16,00,001 to ₹20,00,000: 20%<br>₹20,00,001 to ₹24,00,000: 25%</td>
+              <td>Up to ₹2,50,000: Nil<br>₹2,50,001 to ₹5,00,000: 5%<br>₹5,00,001 to ₹10,00,000: 20%<br>Above
+                ₹10,00,000: 30%</td>
+              <td>Up to ₹4,00,000: Nil<br>₹4,00,001 to ₹8,00,000: 5%<br>₹8,00,001 to ₹12,00,000: 10%<br>₹12,00,001 to
+                ₹16,00,000: 15%<br>₹16,00,001 to ₹20,00,000: 20%<br>₹20,00,001 to ₹24,00,000: 25%</td>
             </tr>
             <tr>
               <td>Rebate u/s 87A (Effective Zero Tax)</td>
@@ -258,7 +287,8 @@
             <tr>
               <td>Standard Deduction</td>
               <td>₹50,000 (for salaried/pensioners)</td>
-              <td>Mostly NOT Allowed (Only a few specific deductions like employer contribution to NPS u/s 80CCD(2) are allowed)</td>
+              <td>Mostly NOT Allowed (Only a few specific deductions like employer contribution to NPS u/s 80CCD(2) are
+                allowed)</td>
             </tr>
             <tr>
               <td>Major Deductions & Exemptions</td>
@@ -278,4 +308,5 @@
     integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
     crossorigin="anonymous"></script>
 </body>
+
 </html>

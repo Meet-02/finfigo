@@ -1,6 +1,8 @@
 import os
 import re
 import mysql.connector
+import feedparser 
+import requests
 from flask import Flask, request, render_template, redirect, flash, url_for, session, send_file, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
@@ -13,13 +15,13 @@ from bus_pdf_gen import create_tax_report as create_business_report
 from database.mydata_db import get_connection,get_gst_connection
 import datetime
 
-
 app = Flask(__name__)
 app.secret_key = 'your_super_secret_key_12345'
 
 load_dotenv()
 
 # Configure Gemini API key
+NEWS_API_KEY = os.getenv("NEWS_API_KEY")
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 if GEMINI_API_KEY:
     genai.configure(api_key=GEMINI_API_KEY)
@@ -37,6 +39,83 @@ def get_float(key):
         return float(request.form.get(key, 0) or 0)
     except (ValueError, TypeError):
         return 0.0
+
+import requests
+import os
+
+def get_financial_news():
+    import os, requests
+    from dotenv import load_dotenv
+
+    load_dotenv()
+    NEWS_API_KEY = os.getenv("NEWS_API_KEY")
+
+    url = "https://newsapi.org/v2/everything"
+
+    # Highly targeted query for GST & ITR policy updates in India
+    params = {
+        "q": (
+            "(India AND ("
+            "'GST rate' OR 'GST rates' OR 'GST revision' OR 'GST council' OR "
+            "'GST notification' OR 'GST rule' OR 'GST update' OR 'GST exemption' OR "
+            "'input tax credit' OR 'GST collection' OR 'GST return' OR "
+            "'ITR filing' OR 'ITR forms' OR 'income tax refund' OR 'income tax rule' OR "
+            "'income tax department' OR 'CBDT' OR 'taxpayer' OR 'income tax portal' OR "
+            "'tax compliance' OR 'tax rebate' OR 'new tax regime'"
+            "))"
+        ),
+        "language": "en",
+        "sortBy": "publishedAt",
+        "pageSize": 15,
+        "apiKey": NEWS_API_KEY,
+        "domains": (
+            "economictimes.indiatimes.com,"
+            "business-standard.com,"
+            "livemint.com,"
+            "moneycontrol.com,"
+            "financialexpress.com,"
+            "indiatoday.in,"
+            "timesofindia.indiatimes.com"
+        )
+    }
+
+    try:
+        response = requests.get(url, params=params)
+        data = response.json()
+        print("STATUS:", response.status_code, "TOTAL:", data.get("totalResults"))
+
+        if response.status_code != 200 or "articles" not in data:
+            print("API Error:", data)
+            return []
+
+        # Filter for high relevance in text
+        keywords = [
+            "gst", "gst rate", "gst council", "itr", "income tax", "tax rule",
+            "circular", "notification", "exemption", "refund", "filing", "reform",
+            "compliance", "input tax", "finance ministry", "cbdt", "taxpayer"
+        ]
+
+        articles = []
+        for art in data["articles"]:
+            title = (art.get("title") or "").lower()
+            desc = (art.get("description") or "").lower()
+
+            if any(k in title or k in desc for k in keywords):
+                articles.append({
+                    "title": art.get("title", "Untitled"),
+                    "url": art.get("url"),
+                    "summary": art.get("description", "") or "",
+                    "source": art.get("source", {}).get("name", "Unknown Source"),
+                    "published": art.get("publishedAt", "")[:10]
+                })
+
+        return articles[:8]  # Show top 8 relevant ones
+
+    except Exception as e:
+        print("Error fetching financial news:", e)
+        return []
+
+
 
 # --- General and User Management Routes ---
 @app.route('/')
@@ -480,6 +559,8 @@ def dashboard_business():
         return redirect(url_for('signup'))
 
     pan_id = session.get('pan_id')
+    articles = get_financial_news() 
+
     with get_connection() as conn:
         with conn.cursor(buffered=True) as cur:
             cur.execute(
@@ -494,12 +575,12 @@ def dashboard_business():
             history = [dict(zip(column_names, row)) for row in results]
 
     history_for_template = history
-    
+
     for row in history_for_template:
         if isinstance(row['created_at'], datetime.datetime):
             row['created_at_display'] = row['created_at'].strftime('%Y-%m-%d')
         else:
-             row['created_at_display'] = str(row['created_at']).split(' ')[0] 
+             row['created_at_display'] = str(row['created_at']).split(' ')[0]
 
     from collections import defaultdict
     yearly_data = defaultdict(lambda: {'gross_income': [], 'gst_payable': [], 'final_tax_payable': []})
@@ -509,7 +590,7 @@ def dashboard_business():
             year = created_at_value.strftime('%Y')
         else:
             year = str(created_at_value)[:4]
-            
+
         yearly_data[year]['gross_income'].append(row['gross_income'])
         yearly_data[year]['gst_payable'].append(row['gst_payable'])
         yearly_data[year]['final_tax_payable'].append(row['final_tax_payable'])
@@ -521,14 +602,16 @@ def dashboard_business():
     tax_data_yearly = [sum(yearly_data[year]['final_tax_payable']) for year in sorted_years]
 
     labels = [
-        f"Calc {i+1} ({row['created_at'].strftime('%Y-%m-%d')})" 
-        if isinstance(row['created_at'], datetime.datetime) 
+        f"Calc {i+1} ({row['created_at'].strftime('%Y-%m-%d')})"
+        if isinstance(row['created_at'], datetime.datetime)
         else f"Calc {i+1} ({str(row['created_at']).split(' ')[0]})"
         for i, row in enumerate(history_for_template)
     ]
     revenue_data = [float(row['gross_income'] or 0) for row in history_for_template]
     gst_data = [float(row['gst_payable'] or 0) for row in history_for_template]
     tax_data = [float(row['final_tax_payable'] or 0) for row in history_for_template]
+
+    articles = get_financial_news()
 
     return render_template(
         'dash_bus.html',
@@ -541,7 +624,8 @@ def dashboard_business():
         yearly_labels=yearly_labels,
         revenue_data_yearly=revenue_data_yearly,
         gst_data_yearly=gst_data_yearly,
-        tax_data_yearly=tax_data_yearly
+        tax_data_yearly=tax_data_yearly,
+        articles=articles
     )
 
 
@@ -551,6 +635,8 @@ def dashboard_job():
         return redirect(url_for('signup'))
 
     pan_id = session.get('pan_id')
+    articles = get_financial_news() 
+
     with get_connection() as conn:
         with conn.cursor(buffered=True) as cur:
             cur.execute('SELECT * FROM tax_results_job WHERE pan_id = %s ORDER BY created_at DESC', (pan_id,))
@@ -559,17 +645,19 @@ def dashboard_job():
             history = [dict(zip(column_names, row)) for row in results]
 
     history_for_template = history
-    
+
     for row in history_for_template:
         if isinstance(row['created_at'], datetime.datetime):
             row['created_at_display'] = row['created_at'].strftime('%Y-%m-%d')
         else:
-             row['created_at_display'] = str(row['created_at']).split(' ')[0] 
+              row['created_at_display'] = str(row['created_at']).split(' ')[0]
 
     labels = [row['financial_year'] for row in reversed(history_for_template)]
     gross_income_data = [row['gross_income'] for row in reversed(history_for_template)]
     tax_data = [row['tax'] for row in reversed(history_for_template)]
     net_income_data = [row['net_income'] for row in reversed(history_for_template)]
+
+    articles = get_financial_news()
 
     return render_template(
         'dash_job.html',
@@ -579,7 +667,8 @@ def dashboard_job():
         labels=labels,
         gross_income_data=gross_income_data,
         tax_data=tax_data,
-        net_income_data=net_income_data
+        net_income_data=net_income_data,
+        articles=articles
     )
 
 # --- PDF Download Routes ---

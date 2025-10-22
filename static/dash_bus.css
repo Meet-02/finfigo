@@ -649,3 +649,127 @@ body {
 body.sidebar-open {
     overflow: hidden;
 }
+
+/* --- News Section Styling --- */
+.news-section {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 30px 35px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-top: 40px;
+    transition: all 0.3s ease-in-out;
+}
+
+.news-section h2 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1c1c1c;
+    margin-bottom: 1.8rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.news-section h2 i {
+    color: #007bff;
+}
+
+/* Individual Article */
+.news-article {
+    background: #f9fafc;
+    border-left: 5px solid #007bff;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.news-article:hover {
+    background: #eef5ff;
+    transform: translateY(-4px);
+    box-shadow: 0 6px 15px rgba(0, 123, 255, 0.15);
+}
+
+.news-title a {
+    font-size: 1.1rem;
+    line-height: 1.4;
+    color: #0056b3;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.news-title a:hover {
+    color: #ff135a;
+}
+
+.news-summary {
+    font-size: 0.95rem;
+    color: #555;
+    line-height: 1.6;
+    margin: 8px 0 5px;
+}
+
+.news-article small {
+    font-size: 0.85rem;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.news-article small i {
+    color: #007bff;
+}
+
+/* --- Responsive --- */
+@media (max-width: 768px) {
+    .news-section {
+        padding: 20px;
+    }
+
+    .news-section h2 {
+        font-size: 1.5rem;
+    }
+
+    .news-title a {
+        font-size: 1rem;
+    }
+
+    .news-summary {
+        font-size: 0.9rem;
+    }
+
+    .news-article {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .news-section {
+        padding: 15px;
+    }
+
+    .news-section h2 {
+        font-size: 1.3rem;
+    }
+
+    .news-title a {
+        font-size: 0.95rem;
+    }
+
+    .news-summary {
+        font-size: 0.85rem;
+    }
+}
+.news-article {
+    opacity: 0;
+    transform: translateY(10px);
+    animation: fadeInUp 0.6s ease forwards;
+  }
+  
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  

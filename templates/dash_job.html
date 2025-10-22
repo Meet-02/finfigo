@@ -44,15 +44,17 @@
         <nav class="sidebar-nav mt-4">
             <ul class="nav flex-column nav-list">
                 <li class="nav-item"><a href="#" class="nav-link active" data-page="dashboard"><i
-                        class="fas fa-tachometer-alt me-2"></i> <span>Dashboard</span></a></li>
-                <li class="nav-item"><a href="#" class="nav-link" data-page="history"><i class="fas fa-history me-2"></i>
-                    <span>History</span></a></li>
+                            class="fas fa-tachometer-alt me-2"></i> <span>Dashboard</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link" data-page="history"><i
+                            class="fas fa-history me-2"></i>
+                        <span>History</span></a></li>
                 <li class="nav-item"><a href="/details" class="nav-link"><i class="fas fa-file-alt me-2"></i> <span>File
-                    Tax</span></a></li>
-                <li class="nav-item"><a href="#" class="nav-link" data-page="product-gst"><i class="fas fa-box-open me-2"></i>
-                    <span>Product GST</span></a></li>
+                            Tax</span></a></li>
+                <li class="nav-item"><a href="#" class="nav-link" data-page="product-gst"><i
+                            class="fas fa-box-open me-2"></i>
+                        <span>Product GST</span></a></li>
                 <li class="nav-item"><a href="#" class="nav-link" data-page="rules"><i class="fas fa-gavel me-2"></i>
-                    <span>Rules</span></a></li>
+                        <span>Rules</span></a></li>
             </ul>
         </nav>
 
@@ -87,69 +89,99 @@
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
                         if (typeof Chart !== 'undefined') {
-                            const calculationLabels = {{ labels | tojson }};
-                            const grossIncomeData = {{ gross_income_data | tojson }};
-                            const taxData = {{ tax_data | tojson }};
-                            const netIncomeData = {{ net_income_data | tojson }};
+                            const calculationLabels = {{ labels | tojson
+                        }
+                    };
+                    const grossIncomeData = {{ gross_income_data | tojson }};
+                    const taxData = {{ tax_data | tojson }};
+                    const netIncomeData = {{ net_income_data | tojson }};
 
-                            const configs = [
-                                {
-                                    id: 'revenuePieChart',
-                                    type: 'line',
-                                    label: 'Gross Income',
-                                    data: grossIncomeData,
-                                    color: 'rgba(40,167,69,1)',
-                                    bg: 'rgba(40,167,69,0.2)'
+                    const configs = [
+                        {
+                            id: 'revenuePieChart',
+                            type: 'line',
+                            label: 'Gross Income',
+                            data: grossIncomeData,
+                            color: 'rgba(40,167,69,1)',
+                            bg: 'rgba(40,167,69,0.2)'
+                        },
+                        {
+                            id: 'netPayableTaxChart',
+                            type: 'bar',
+                            label: 'Tax Paid (₹)',
+                            data: taxData,
+                            color: 'rgba(220,53,69,1)',
+                            bg: 'rgba(220,53,69,0.6)'
+                        }
+                    ];
+
+                    configs.forEach(cfg => {
+                        try {
+                            const ctx = document.getElementById(cfg.id).getContext('2d');
+                            new Chart(ctx, {
+                                type: cfg.type,
+                                data: {
+                                    labels: calculationLabels,
+                                    datasets: [{
+                                        label: cfg.label,
+                                        data: cfg.data,
+                                        borderColor: cfg.color,
+                                        backgroundColor: cfg.bg,
+                                        fill: true,
+                                        tension: 0.1,
+                                        borderWidth: 1,
+                                        borderRadius: 4
+                                    }]
                                 },
-                                {
-                                    id: 'netPayableTaxChart',
-                                    type: 'bar',
-                                    label: 'Tax Paid (₹)',
-                                    data: taxData,
-                                    color: 'rgba(220,53,69,1)',
-                                    bg: 'rgba(220,53,69,0.6)'
+                                options: {
+                                    responsive: true,
+                                    scales: { y: { beginAtZero: true } }
                                 }
-                            ];
-
-                            configs.forEach(cfg => {
-                                try {
-                                    const ctx = document.getElementById(cfg.id).getContext('2d');
-                                    new Chart(ctx, {
-                                        type: cfg.type,
-                                        data: {
-                                            labels: calculationLabels,
-                                            datasets: [{
-                                                label: cfg.label,
-                                                data: cfg.data,
-                                                borderColor: cfg.color,
-                                                backgroundColor: cfg.bg,
-                                                fill: true,
-                                                tension: 0.1,
-                                                borderWidth: 1,
-                                                borderRadius: 4
-                                            }]
-                                        },
-                                        options: {
-                                            responsive: true,
-                                            scales: { y: { beginAtZero: true } }
-                                        }
-                                    });
-                                } catch (e) { console.error("Chart error:", e); }
                             });
+                        } catch (e) { console.error("Chart error:", e); }
+                    });
                         }
                     });
                 </script>
                 {% else %}
-                <p class="text-center text-muted">No business calculations found. Complete your first business tax calculation
+                <p class="text-center text-muted">No business calculations found. Complete your first business tax
+                    calculation
                     to see graphs here.</p>
                 {% endif %}
             </div>
         </section>
 
+        <div class="news-section mt-5">
+            <h2><i class="fas fa-newspaper"></i> Latest Business & Tax News</h2>
+            
+            {% if articles %}
+              {% for article in articles %}
+              <div class="news-article mb-4 p-3 border rounded shadow-sm">
+                <h4 class="news-title mb-2">
+                  <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-primary fw-bold">
+                    {{ article.title }}
+                  </a>
+                </h4>
+                {% if article.summary %}
+                <p class="news-summary text-muted">{{ article.summary }}</p>
+                {% endif %}
+                <small class="text-secondary d-block">
+                  <i class="fas fa-clock"></i> {{ article.published }} |
+                  <i class="fas fa-globe"></i> {{ article.source }}
+                </small>
+              </div>
+              {% endfor %}
+            {% else %}
+              <p class="text-muted">Could not load financial news at this time. Please try again later.</p>
+            {% endif %}
+          </div>
+          
+
         <section id="history-content" class="page-content" style="display:none;">
             <h1>Filing History</h1>
             <div class="history-section">
-                <h3><i class="fa-solid fa-clock-rotate-left"></i> Calculation History (Total: {{ history|length if history else 0 }})
+                <h3><i class="fa-solid fa-clock-rotate-left"></i> Calculation History (Total: {{ history|length if
+                    history else 0 }})
                 </h3>
                 {% if history %}
                 <div class="table-responsive table-container">
@@ -175,8 +207,10 @@
                                 <td>{{ "%.2f"|format(calc.tax) }}</td>
                                 <td>{{ "%.2f"|format(calc.net_income) }}</td>
                                 <td>
-                                    {% if calc.insights and calc.insights != "Could not generate AI insights at this time." %}
-                                    <div class="insights-cell">{{ calc.insights[:100] }}{% if calc.insights|length > 100 %}...{% endif %}
+                                    {% if calc.insights and calc.insights != "Could not generate AI insights at this
+                                    time." %}
+                                    <div class="insights-cell">{{ calc.insights[:100] }}{% if calc.insights|length > 100
+                                        %}...{% endif %}
                                     </div>
                                     {% else %} - {% endif %}
                                 </td>
@@ -251,8 +285,11 @@
                         </tr>
                         <tr>
                             <td>Tax Slabs (Income for Individuals < 60)</td>
-                            <td>Up to ₹2,50,000: Nil<br>₹2,50,001 to ₹5,00,000: 5%<br>₹5,00,001 to ₹10,00,000: 20%<br>Above ₹10,00,000: 30%</td>
-                            <td>Up to ₹4,00,000: Nil<br>₹4,00,001 to ₹8,00,000: 5%<br>₹8,00,001 to ₹12,00,000: 10%<br>₹12,00,001 to ₹16,00,000: 15%<br>₹16,00,001 to ₹20,00,000: 20%<br>₹20,00,001 to ₹24,00,000: 25%</td>
+                            <td>Up to ₹2,50,000: Nil<br>₹2,50,001 to ₹5,00,000: 5%<br>₹5,00,001 to ₹10,00,000:
+                                20%<br>Above ₹10,00,000: 30%</td>
+                            <td>Up to ₹4,00,000: Nil<br>₹4,00,001 to ₹8,00,000: 5%<br>₹8,00,001 to ₹12,00,000:
+                                10%<br>₹12,00,001 to ₹16,00,000: 15%<br>₹16,00,001 to ₹20,00,000: 20%<br>₹20,00,001 to
+                                ₹24,00,000: 25%</td>
                         </tr>
                         <tr>
                             <td>Rebate u/s 87A (Effective Zero Tax)</td>
@@ -262,12 +299,14 @@
                         <tr>
                             <td>Standard Deduction</td>
                             <td>₹50,000 (for salaried/pensioners)</td>
-                            <td>Mostly NOT Allowed (Only a few specific deductions like employer contribution to NPS u/s 80CCD(2) are allowed)</td>
+                            <td>Mostly NOT Allowed (Only a few specific deductions like employer contribution to NPS u/s
+                                80CCD(2) are allowed)</td>
                         </tr>
                         <tr>
                             <td>Major Deductions & Exemptions</td>
                             <td>Allowed</td>
-                            <td>Mostly NOT Allowed (Only specific ones like employer contribution to NPS u/s 80CCD(2))</td>
+                            <td>Mostly NOT Allowed (Only specific ones like employer contribution to NPS u/s 80CCD(2))
+                            </td>
                         </tr>
                     </tbody>
                 </table>
