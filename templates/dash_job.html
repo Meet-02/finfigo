@@ -149,32 +149,32 @@
                     to see graphs here.</p>
                 {% endif %}
             </div>
+            <div class="news-section mt-5">
+                <h2><i class="fas fa-newspaper"></i> Latest Business & Tax News</h2>
+                
+                {% if articles %}
+                  {% for article in articles %}
+                  <div class="news-article mb-4 p-3 border rounded shadow-sm">
+                    <h4 class="news-title mb-2">
+                      <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-primary fw-bold">
+                        {{ article.title }}
+                      </a>
+                    </h4>
+                    {% if article.summary %}
+                    <p class="news-summary text-muted">{{ article.summary }}</p>
+                    {% endif %}
+                    <small class="text-secondary d-block">
+                      <i class="fas fa-clock"></i> {{ article.published }} |
+                      <i class="fas fa-globe"></i> {{ article.source }}
+                    </small>
+                  </div>
+                  {% endfor %}
+                {% else %}
+                  <p class="text-muted">Could not load financial news at this time. Please try again later.</p>
+                {% endif %}
+              </div>
         </section>
 
-        <div class="news-section mt-5">
-            <h2><i class="fas fa-newspaper"></i> Latest Business & Tax News</h2>
-            
-            {% if articles %}
-              {% for article in articles %}
-              <div class="news-article mb-4 p-3 border rounded shadow-sm">
-                <h4 class="news-title mb-2">
-                  <a href="{{ article.url }}" target="_blank" rel="noopener noreferrer" class="text-decoration-none text-primary fw-bold">
-                    {{ article.title }}
-                  </a>
-                </h4>
-                {% if article.summary %}
-                <p class="news-summary text-muted">{{ article.summary }}</p>
-                {% endif %}
-                <small class="text-secondary d-block">
-                  <i class="fas fa-clock"></i> {{ article.published }} |
-                  <i class="fas fa-globe"></i> {{ article.source }}
-                </small>
-              </div>
-              {% endfor %}
-            {% else %}
-              <p class="text-muted">Could not load financial news at this time. Please try again later.</p>
-            {% endif %}
-          </div>
           
 
         <section id="history-content" class="page-content" style="display:none;">
